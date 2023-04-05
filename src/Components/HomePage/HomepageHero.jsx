@@ -2,9 +2,9 @@ import React from "react";
 
 const HomepageHero = () => {
   return (
-    <div className="h-[120vh] w-full relative flex cursor-default items-center bg-gradient-to-br from-[#DE7C5A] via-[#b15637] to-[#521c0a]">
+    <div className="h-[120vh] w-full relative flex cursor-default items-center bg-gradient-to-br from-[#ee7e87] via-[#E84855] to-[#641219]">
       <div className="absolute flex flex-col gap-12 mx-40 w-[35%] shadow-xl shadow-gray-800/50 px-28 rounded-xl h-[55%] justify-center bg-[#F1F0EA]">
-        <h1 className="text-5xl bg-[#DE7C5A] text-white p-4 w-[65%] rounded-xl drop-shadow indent-[3rem] tracking-wider font-medium">
+        <h1 className="text-5xl bg-[#E84855] text-white p-4 w-[65%] rounded-xl drop-shadow indent-[3rem] tracking-wider font-medium">
           PetPalz
         </h1>
         <h1 className="text-4xl drop-shadow tracking-widest font-thin">

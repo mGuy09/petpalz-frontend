@@ -9,7 +9,7 @@ const HomepageContent = () => {
         <img
           src="https://i.ibb.co/Phc5mpd/c6ad58e0-00f0-4d6e-9ad2-275ba2d5aa71.png"
           alt=""
-          className="w-[70%] absolute -top-4 -left-7"
+          className="w-[70%] absolute bottom-0 -left-7"
         />
         <div className="bg-[#F1F0EA] absolute w-[50%] px-14 gap-10 right-0 h-full p-10 justify-center flex flex-col">
           <div className="flex flex-col gap-3 items-center drop-shadow-lg rounded p-10">

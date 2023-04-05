@@ -1,14 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
-import { FaUserCircle, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaCog, FaSignOutAlt, FaSignInAlt } from "react-icons/fa";
+import { useAtom } from "jotai";
+import Authenticated from "../../StateManagement/State";
 
 const Navbar = () => {
   const [isOpen, setOpen] = React.useState(false);
+  const [loggedIn, setLoggedIn] = useAtom(Authenticated)
   const OpenClose = () => {
     setOpen(!isOpen);
   };
+  const location = useLocation().pathname;
+
+  if (
+    location == "/register" ||
+    location == "/login" ||
+    location == "/Register" ||
+    location == "/Login"
+  )
+    return null;
 
   return (
     <div>
@@ -16,8 +28,8 @@ const Navbar = () => {
 
       <div
         onClick={OpenClose}
-        className={`fixed w-full h-screen bg-black/60 z-20 backdrop-blur-sm duration-300 transition-all ${
-          !isOpen && "bg-black/0 backdrop-blur-none invisible"
+        className={`fixed w-full h-screen bg-black/60 z-20 backdrop-blur-sm visible duration-300 transition-all ${
+          !isOpen ? "bg-white/0 backdrop-blur-0 invisible" : ""
         }`}
       ></div>
 
@@ -29,12 +41,8 @@ const Navbar = () => {
         }`}
       >
         <div className="flex justify-around items-center ">
-          <Link to={"/"}>
-            <img
-              src="https://i.ibb.co/2nMgm1V/heart.png"
-              className="mx-5 mb-[0.90rem] w-[13%]"
-              alt=""
-            />
+          <Link to={"/"} className="mx-5 mb-[0.90rem] w-[13%]">
+            <img src="https://i.ibb.co/2nMgm1V/heart.png" alt="" />
           </Link>
           <div
             onClick={OpenClose}
@@ -97,7 +105,7 @@ const Navbar = () => {
                 />
               </div>
             </Link>
-            <Link to={"/logout"}>
+            <Link to={"/logout"} className={`${!loggedIn ? "hidden" : "visible"}`}>
               <div
                 onClick={OpenClose}
                 className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
@@ -108,7 +116,18 @@ const Navbar = () => {
                 />
               </div>
             </Link>
-            <Link to={'/settings'}>
+            <Link to={"/login"} className={`${!loggedIn ? "visible" : "hidden"}`}>
+              <div
+                onClick={OpenClose}
+                className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
+              >
+                <FaSignInAlt
+                  size={30}
+                  className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
+                />
+              </div>
+            </Link>
+            <Link to={"/settings"}>
               <div
                 onClick={OpenClose}
                 className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
@@ -128,16 +147,18 @@ const Navbar = () => {
       <div
         className={`shadow-md flex items-center fixed bg-[#E0DDCF] justify-between p-4 w-full z-10 navbar`}
       >
-        <div className="mx-10 flex gap-7 items-center">
-          <img
-            src="https://i.ibb.co/2nMgm1V/heart.png"
-            className="w-[4%] scale-150 "
-            alt=""
-          />
-          <h1 className="text-lg scale-125 font-medium tracking-wider">
-            PetPalz
-          </h1>
-        </div>
+        <Link to={"/"}>
+          <div className="mx-10 flex gap-7 items-center">
+            <img
+              src="https://i.ibb.co/2nMgm1V/heart.png"
+              className="w-[4%] scale-150 "
+              alt=""
+            />
+            <h1 className="text-lg scale-125 font-medium tracking-wider">
+              PetPalz
+            </h1>
+          </div>
+        </Link>
         <div>
           <HiMenuAlt3
             onClick={OpenClose}
