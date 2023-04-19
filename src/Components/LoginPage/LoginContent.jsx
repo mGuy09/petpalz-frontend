@@ -1,9 +1,71 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowRight, FaFacebookF, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import InputTemplate from "../Misc/InputTemplate";
+import axios from "axios";
 
 const LoginContent = () => {
   const [click, setClick] = useState(false);
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [errorList, setErrorList] = useState([]);
+  const [visible, setVisible] = useState(false);
+  
+  const navigate = useNavigate()
+
+  const UpdatePassword = (e) => {
+    e.preventDefault();
+    setPassword(e.target.value);
+    if (e.target.value.length < 6) {
+      if (!errorList.includes("passwordInvalid"))
+        setErrorList((prev) => [
+          ...prev.filter((x) => x != "passwordValid"),
+          "passwordInvalid",
+        ]);
+    } else {
+      if (!errorList.includes("passwordValid")) {
+        setErrorList((prev) => [
+          ...prev.filter((x) => x != "passwordInvalid"),
+          "passwordValid",
+        ]);
+      }
+    }
+  };
+  const UpdateUsername = (e) => {
+    e.preventDefault();
+    setUsername(e.target.value);
+    if (e.target.value.length < 5) {
+      if (!errorList.includes("usernameInvalid")) {
+        setErrorList((prev) => [
+          ...prev.filter((x) => x != "usernameValid"),
+          "usernameInvalid",
+        ]);
+      }
+    } else {
+      if (!errorList.includes("usernameValid")) {
+        setErrorList((prev) => [
+          ...prev.filter((x) => x != "usernameInvalid"),
+          "usernameValid",
+        ]);
+      }
+    }
+  };
+  const Submit = () => {
+    if (errorList.length > 0) {
+      if (!errorList.includes("usernameInvalid") && !errorList.includes('passwordInvalid')) {
+        axios.post(
+          "https://localhost:7105/api/Users/Login",
+          { username: username, password: password },
+          { withCredentials: true }
+        ).then(res => navigate('/pet-sitters&owners'));
+      }
+    }
+  }
+
+  useEffect(() => {
+    console.log(errorList);
+  }, [errorList]);
+
   return (
     <div className="relative h-[100vh]">
       <div className="absolute  bg-gradient-to-br w-full h-full from-[#DE7C5A] via-[#f56363] to-[#742d33]"></div>
@@ -11,7 +73,7 @@ const LoginContent = () => {
         onClick={() => setClick(true)}
         className={`top-[13%] left-[32%] flex absolute flex-col group items-center w-[45rem] h-[40rem] rounded-2xl  justify-center duration-200 gap-14  ${
           click
-            ? "bg-[#fafafa] shadow-xl shadow-black/30 scale-110"
+            ? "bg-[#fdfdf4] shadow-xl shadow-black/30 scale-110"
             : "bg-black/30"
         }`}
       >
@@ -50,23 +112,26 @@ const LoginContent = () => {
           </button>
         </div>
         <div className="flex flex-col items-center gap-4">
-          <input
-            type="text"
-            placeholder="Username"
-            className={`rounded-md outline-none px-3 py-1 duration-200 border-2  shadow-md shadow-black/5  ${
-              click
-                ? "border-[#b6b3a8]  bg-white placeholder-[#d3d0c2] hover:border-[#E84855]/100 hover:placeholder-[#E84855] caret-[#E84855] focus:placeholder-[#E84855]/0 placeholder:duration-200 focus:border-[#E84855]/100"
-                : "border-white bg-transparent placeholder-white"
-            }`}
+          <InputTemplate
+            Method={UpdateUsername}
+            click={click}
+            errorList={errorList}
+            placeholder={"Username"}
+            type={"text"}
+            invalid={"usernameInvalid"}
+            valid={"usernameValid"}
           />
-          <input
-            type="text"
-            placeholder="Password"
-            className={`rounded-md outline-none px-3 py-1 duration-200 border-2 shadow-md shadow-black/5 ${
-              click
-                ? "border-[#b6b3a8]  bg-white/100  placeholder-[#d3d0c2] hover:border-[#E84855]/100 hover:placeholder-[#E84855] caret-[#E84855] focus:placeholder-[#E84855]/0 placeholder:duration-200 focus:border-[#E84855]/100"
-                : "border-white placeholder-white bg-transparent"
-            }`}
+          <InputTemplate
+            Method={UpdatePassword}
+            isPassword={true}
+            click={click}
+            errorList={errorList}
+            invalid={"passwordInvalid"}
+            placeholder={"Password"}
+            type={"password"}
+            valid={"passwordValid"}
+            showPassword={() => setVisible(!visible)}
+            visible={visible}
           />
           <Link
             to={""}
@@ -81,6 +146,7 @@ const LoginContent = () => {
         </div>
         <div className="flex flex-col gap-3 items-center">
           <button
+            onClick={Submit}
             className={`flex gap-2 items-center px-4 py-2 font-medium border-2 duration-200 rounded-full  shadow-md shadow-black/5  ${
               click
                 ? "text-[#E84855] border-[#E84855] hover:bg-[#E84855] hover:text-white "

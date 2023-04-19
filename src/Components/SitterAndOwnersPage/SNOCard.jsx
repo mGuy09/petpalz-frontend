@@ -4,9 +4,9 @@ import SNOQualificationTag from "./SNOQualificationTag";
 
 const SNOCard = ({isPetSitter}) => {
   if(isPetSitter)return (
-    <div className="bg-white flex flex-col gap-5 w-[30%] p-5  shadow-lg">
+    <div className="bg-white flex flex-col gap-5 w-[40%] p-5  shadow-lg">
       <div className="flex gap-20">
-        <div className="w-[5rem] h-[5rem] flex items-center justify-center bg-[#b1aea0] rounded-full shadow-md">
+        <div className="w-[5rem] hover:scale-110 duration-200 h-[5rem] flex items-center justify-center bg-[#b1aea0] rounded-full shadow-md">
           <img src="https://i.ibb.co/Jkb7FzG/user-female.png" alt="" />
         </div>
         <div className="flex flex-col">
@@ -55,7 +55,7 @@ const SNOCard = ({isPetSitter}) => {
     return (
       <div className="bg-white flex flex-col gap-5 w-[30%] p-5  shadow-lg">
         <div className="flex gap-20">
-          <div className="w-[5rem] h-[5rem] flex items-center justify-center bg-[#b1aea0] rounded-full shadow-md">
+          <div className="w-[5rem] h-[5rem] hover:scale-110 duration-200 flex items-center justify-center bg-[#b1aea0] rounded-full shadow-md">
             <img src="https://i.ibb.co/Jkb7FzG/user-female.png" alt="" />
           </div>
           <div className="flex flex-col">
@@ -70,7 +70,7 @@ const SNOCard = ({isPetSitter}) => {
           <h1 className="font-medium text-lg underline underline-offset-[3px]">
             Description
           </h1>
-          
+
           <div className="overflow-hidden relative font-light whitespace-pre-line w-full">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer leo
             lacus, mattis sed eleifend id, eleifend ullamcorper odio. Sed

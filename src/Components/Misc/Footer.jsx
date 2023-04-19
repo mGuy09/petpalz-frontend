@@ -10,10 +10,12 @@ function Footer() {
   const location = useLocation().pathname;
 
   if (
-    location == "/register" ||
-    location == "/login" ||
-    location == "/Register" ||
-    location == "/Login"
+    location === "/register" ||
+    location === "/login" ||
+    location === "/Register" ||
+    location === "/Login" ||
+    location === "/create-profile" ||
+    location === "/Create-profile"
   )
     return null;
   return (

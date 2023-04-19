@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const HomepageContent = () => {
   return (
@@ -61,9 +62,11 @@ const HomepageContent = () => {
           <p className="text-2xl font-thin antialiased">
             Take part in this amazing community by signing in
           </p>
-          <button className="px-4 py-2 w-[20%] border-2 font-medium border-[#E84855] text-[#E84855] hover:bg-[#E84855] hover:text-white hover:scale-110 duration-150 active:scale-105 antialiased active:bg-[#8a2931] active:border-[#8a2931] rounded-full ">
-            Sign In
-          </button>
+          <Link to={'/login'}>
+            <button className="px-4 py-2 w-[20%] border-2 font-medium border-[#E84855] text-[#E84855] hover:bg-[#E84855] hover:text-white hover:scale-110 duration-150 active:scale-105 antialiased active:bg-[#8a2931] active:border-[#8a2931] rounded-full ">
+              Sign In
+            </button>
+          </Link>
         </div>
       </div>
     </div>

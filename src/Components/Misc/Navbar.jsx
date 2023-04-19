@@ -4,7 +4,7 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaUserCircle, FaCog, FaSignOutAlt, FaSignInAlt } from "react-icons/fa";
 import { useAtom } from "jotai";
-import Authenticated from "../../StateManagement/State";
+import { Authenticated } from "../../StateManagement/State";
 
 const Navbar = () => {
   const [isOpen, setOpen] = React.useState(false);
@@ -15,10 +15,12 @@ const Navbar = () => {
   const location = useLocation().pathname;
 
   if (
-    location == "/register" ||
-    location == "/login" ||
-    location == "/Register" ||
-    location == "/Login"
+    location === "/register" ||
+    location === "/login" ||
+    location === "/Register" ||
+    location === "/Login" ||
+    location === "/create-profile" ||
+    location === "/Create-profile"
   )
     return null;
 
@@ -68,7 +70,7 @@ const Navbar = () => {
                 Home
               </li>
             </Link>
-            <Link to={"/petsitters&owners"}>
+            <Link to={"/pet-sitters&owners"}>
               <li
                 onClick={OpenClose}
                 className="px-5 py-3 border-b cursor-pointer border-[#c4c0b1] w-full hover:bg-[#E84855] text-lg transition-all hover:text-white font-medium duration-150 "
@@ -76,7 +78,7 @@ const Navbar = () => {
                 Pet Sitters & Owners
               </li>
             </Link>
-            <Link to={"/aboutus"}>
+            <Link to={"/about-us"}>
               <li
                 onClick={OpenClose}
                 className="px-5 py-3 border-b cursor-pointer border-[#c4c0b1] w-full hover:bg-[#E84855] text-lg transition-all hover:text-white font-medium duration-150 "

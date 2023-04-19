@@ -21,18 +21,20 @@ const SNOContent = () => {
       });
   },[]);
   return (
-    <div className=" w-[99vw] pt-[3.5rem] grid grid-cols-10">
+    <div className=" w-[full] duration-300 transition-all pt-[3.5rem] flex justify-between">
       {/* Filter */}
       <div className="fixed w-[3%] text-white bg-[#280000] py-10 duration-200 flex justify-center h-full">
         <BsArrowBarRight
           onClick={() => setFilterState(true)}
           size={25}
-          className={`duration-200 ${ filterState ? "invisible rotate-180" : "visible"}`}
+          className={`duration-200 ${
+            filterState ? "invisible rotate-180" : "visible"
+          }`}
         />
       </div>
       <div
-        className={`flex flex-col gap-16 border-b-2 border-b-[#c4c0b1] duration-300 bg-[#280000] p-10 z-[1] col-span-2 ${
-          !filterState ? "-translate-x-full" : ""
+        className={`flex flex-col gap-16 w-[33%] border-b-2 border-b-[#c4c0b1] duration-300 bg-[#280000] p-10 z-[1]  ${
+          !filterState ? "-translate-x-full " : ""
         }`}
       >
         <div className="flex font-medium text-white w-full items-center justify-between">
@@ -95,7 +97,11 @@ const SNOContent = () => {
       </div>
 
       {/* Content */}
-      <div className=" flex flex-col col-span-8 gap-[8rem] py-10 items-center justify-center">
+      <div
+        className={`flex flex-col duration-300 gap-[8rem] py-10 items-center justify-center ${
+          filterState ? "px-16" : "-translate-x-20 px-0"
+        }`}
+      >
         <SNOCard isPetSitter={true} />
         <SNOCard isPetSitter={true} />
         <SNOCard />
