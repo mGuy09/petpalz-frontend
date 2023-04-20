@@ -346,7 +346,7 @@ const RegisterContent = () => {
         <button
           className={`flex gap-2 items-center px-4 py-2 font-medium border-2 duration-200 rounded-full  shadow-md shadow-black/5  ${
             click
-              ? "text-[#E84855] border-[#E84855] hover:bg-[#E84855] "
+              ? "text-[#E84855] hover:text-white border-[#E84855] hover:bg-[#E84855] "
               : "text-white border-white"
           }`}
           onClick={OnSubmit}
