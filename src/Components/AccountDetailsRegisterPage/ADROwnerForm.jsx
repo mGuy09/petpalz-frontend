@@ -7,16 +7,30 @@ const ADROwnerForm = ({ userType }) => {
   const [descriptionL, setDescriptionL] = useState(150);
   const [descriptionText, setDescription] = useState(null);
   const [serviceType, setServiceType] = useState();
+  const [gender, setGender] = useState("");
+  const [serviceOptions, setServiceOptions] = useState([]);
   const [errorList, setErrorList] = useState([]);
 
   console.log(userType, descriptionText, serviceType);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("https://localhost:7105/api/ServiceTypes", { withCredentials: true })
+      .then((res) => {
+        setServiceOptions(res.data);
+      });
+  }, []);
 
   const UpdateDescription = (e) => {
     e.preventDefault();
     console.log(e.target.value);
     setDescription(e.target.value);
     setDescriptionL(150 - e.target.value.length);
+  };
+
+  const GetGenderValue = (callback) => {
+    setGender(callback === 0 ? "male" : callback === 1 && "female");
   };
 
   const GetValue = (callback) => {
@@ -39,6 +53,8 @@ const ADROwnerForm = ({ userType }) => {
             qualificationIds: [],
             serviceTypeId: serviceType,
             description: descriptionText,
+            yearsOfExperience: 0,
+            gender: gender,
           },
           { withCredentials: true }
         )
@@ -63,7 +79,21 @@ const ADROwnerForm = ({ userType }) => {
           <span className="font-bold text-xl">*</span>required fields
         </p>
       </div>
-
+      <div>
+        <SelectOptionTemplate
+          name={"gender"}
+          id={"gender-id"}
+          callback={GetGenderValue}
+          errorList={errorList}
+          optionList={[
+            { name: "male", id: 0 },
+            { name: "female", id: 1 },
+          ]}
+          addError={setErrorList}
+          invalid={"invalidGenderSelection"}
+          valid={"validGenderSelection"}
+        />
+      </div>
       <div className="flex flex-col items-start gap-4">
         <p className="mx-2 text-[#77776f] font-medium">Description</p>
         <div className="relative">
@@ -86,14 +116,11 @@ const ADROwnerForm = ({ userType }) => {
         <p className="mx-2 flex justify-center gap-2 text-[#77776f] font-medium">
           <span className="text-[#e84855] text-xl font-bold">*</span>Service
         </p>
-        <div>
+        <div className="w-full">
           <SelectOptionTemplate
             name={"service"}
             id="service-id"
-            optionList={[
-              { id: 0, name: "Serviciul1" },
-              { id: 1, name: "Serviciul2" },
-            ]}
+            optionList={serviceOptions.filter((x) => x.isForOwner)}
             placeholder="Service"
             callback={GetValue}
             errorList={errorList}

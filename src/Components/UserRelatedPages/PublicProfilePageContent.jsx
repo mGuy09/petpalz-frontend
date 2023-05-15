@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
 
-const PublicProfilePageContent = () => {
+const PublicProfilePageContent = ({ user }) => {
   return (
-    <div>PublicProfilePageContent</div>
-  )
-}
+    <>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </>
+  );
+};
 
-export default PublicProfilePageContent
+export default PublicProfilePageContent;

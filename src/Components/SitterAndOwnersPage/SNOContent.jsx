@@ -1,25 +1,91 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SNOCard from "./SNOCard";
 import SNOFilterInput from "./SNOFilterInput";
 import SNOSkeleton from "./SNOSkeleton";
 import { BsArrowBarRight, BsArrowBarLeft } from "react-icons/bs";
 
 const SNOContent = () => {
-  const [locations, setLocations] = React.useState([]);
-  const [isLocationsSmall, setLocationsSmall] = React.useState(true);
-  const [filterState, setFilterState] = React.useState(true)
-  React.useEffect(() => {
+  const [locations, setLocations] = useState([]);
+  const [isLocationsSmall, setLocationsSmall] = useState(true);
+  const [filterState, setFilterState] = useState(true);
+  const [qualifications, setQualifications] = useState([]);
+  const [currentUser, setCurrentUser] = useState();
+  const [users, setUsers] = useState([]);
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
     axios
       .post("https://countriesnow.space/api/v0.1/countries/states", {
         country: "romania",
       })
       .then((res) => {
         console.log(res.data);
-        console.log(res.data.data.states.slice(0,5))
+        console.log(res.data.data.states.slice(0, 5));
         setLocations(res.data.data.states);
       });
-  },[]);
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("https://localhost:7105/api/Users/CurrentUser", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("Auth", true);
+        setCurrentUser(res.data);
+      })
+      .then(
+        axios
+          .get("https://localhost:7105/api/Qualifications", {
+            withCredentials: true,
+          })
+          .then((res) => setQualifications(res.data))
+          .then()
+      );
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("https://localhost:7105/api/ServiceTypes", { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+        setServices(
+          currentUser
+            ? res.data.filter((x) =>
+                currentUser.userType.name === "petSitter"
+                  ? x.isForOwner
+                  : x.isForOwner === false
+              )
+            : []
+        );
+      });
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.userType === "petSitter") {
+        axios
+          .get("https://localhost:7105/api/Users/AllPetOwners", {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res);
+            setUsers(res.data);
+          });
+      } else {
+        axios
+          .get("https://localhost:7105/api/Users/AllPetSitters", {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res);
+            setUsers(res.data);
+          });
+      }
+    }
+  }, [currentUser]);
   return (
     <div className=" w-[full] duration-300 transition-all pt-[3.5rem] flex justify-between">
       {/* Filter */}
@@ -79,17 +145,39 @@ const SNOContent = () => {
             {isLocationsSmall ? "Show More" : "Show Less"}
           </button>
         </div>
-        <div>
-          <h1 className="text-lg font-medium text-white">Qualificaions</h1>
-          <SNOFilterInput
-            filterId={"qualifications"}
-            filterName={"Qualifications"}
-          />
+        <div className="flex flex-col items-start gap-y-4">
+          <h1 className="text-lg font-medium text-white">Qualifications</h1>
+          <div className="flex flex-wrap duration-300 gap-x-4">
+            {qualifications.length === 0 ? (
+              <SNOSkeleton />
+            ) : (
+              qualifications.map((x) => (
+                <SNOFilterInput
+                  filterId={x.id}
+                  filterName={x.name}
+                  key={"q-" + x.name}
+                />
+              ))
+            )}
+          </div>
         </div>
-        <div>
+        <div className="flex flex-col items-start gap-y-4">
           <h1 className="text-lg font-medium text-white">Services</h1>
-          <SNOFilterInput filterId={"services"} filterName={"Services"} />
+          <div className="flex flex-wrap duration-300 gap-x-4">
+            {services.length !== 0 ? (
+              services.map((x) => (
+                <SNOFilterInput
+                  filterId={x.id}
+                  filterName={x.name}
+                  key={"q-" + x.name}
+                />
+              ))
+            ) : (
+              <SNOSkeleton />
+            )}
+          </div>
         </div>
+
         <div>
           <h1 className="text-lg font-medium text-white">Rating</h1>
           <SNOFilterInput filterId={"rating"} filterName={"Rating"} />
@@ -98,15 +186,25 @@ const SNOContent = () => {
 
       {/* Content */}
       <div
-        className={`flex flex-col duration-300 gap-[8rem] py-10 items-center justify-center ${
+        className={`flex flex-col duration-300 gap-[8rem] py-10 items-center justify-start my-10 ${
           filterState ? "px-16" : "-translate-x-20 px-0"
         }`}
       >
-        <SNOCard isPetSitter={true} />
-        <SNOCard isPetSitter={true} />
-        <SNOCard />
-        <SNOCard />
-        <SNOCard />
+        {users.length != 0 ? (
+          users.map((x) => (
+            <SNOCard
+              key={"c-" + x.userName}
+              info={x}
+              isPetSitter={x.isForOwner}
+            />
+          ))
+        ) : (
+          <>
+            <SNOCard skeleton={true} />
+            <SNOCard skeleton={true} />
+            <SNOCard skeleton={true} />
+          </>
+        )}
       </div>
     </div>
   );

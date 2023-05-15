@@ -36,7 +36,13 @@ const RegisterContent = () => {
         })
         .then((res) => {
           if (res.status === 201) {
-            axios.post("https://localhost:7105/api/Users/Login", { username: res.data.userName, password: password }, {withCredentials: true}).then(res => navigate('/create-profile'))
+            axios
+              .post(
+                "https://localhost:7105/api/Users/Login",
+                { username: res.data.userName, password: password },
+                { withCredentials: true }
+              )
+              .then((res) => navigate("/create-profile"));
           }
         });
     }
@@ -102,7 +108,7 @@ const RegisterContent = () => {
   const UpdateUsername = (e) => {
     e.preventDefault();
     setUsername(e.target.value);
-    if (!/^[a-zA-Z0-9_]{6,}$/.test(e.target.value)) {
+    if (!/^[a-zA-Z0-9_.-]{5,16}$/.test(e.target.value)) {
       if (!errorList.includes("usernameInvalid"))
         setErrorList((prev) => [
           ...prev.filter((x) => x !== "usernameValid"),
@@ -184,11 +190,10 @@ const RegisterContent = () => {
       }
     }
   };
-
   const UpdatePhoneNumber = (e) => {
     e.preventDefault();
     setPhoneNumber(e.target.value);
-    if (!/^(07\d{8}|03\d{8})$/.test(e.target.value)) {
+    if (!/^(07\d{8}|03\d{8}|02\d{8})$/.test(e.target.value)) {
       if (!errorList.includes("phoneNumberInvalid"))
         setErrorList((prev) => [
           ...prev.filter((x) => x !== "phoneNumberValid"),
@@ -317,7 +322,7 @@ const RegisterContent = () => {
                 placeholder={"Confirm Password"}
                 type={"password"}
                 click={click}
-                  visible={visible}
+                visible={visible}
               />
             </div>
           </div>
