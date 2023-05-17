@@ -72,7 +72,6 @@ const ADRSitterForm = ({ userType }) => {
     return true;
   };
   const GetQualification = (callback) => {
-    debugger;
     if (VerifyQualification(callback.label.toLowerCase())) {
       axios
         .post(

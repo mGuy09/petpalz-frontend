@@ -195,7 +195,7 @@ const SNOContent = () => {
             <SNOCard
               key={"c-" + x.userName}
               info={x}
-              isPetSitter={x.isForOwner}
+              isPetSitter={x.userType === 'petSitter' ? true : false}
             />
           ))
         ) : (

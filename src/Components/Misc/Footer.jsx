@@ -19,7 +19,7 @@ function Footer() {
   )
     return null;
   return (
-    <div className="bg-[#280000] text-[#a39f8d] flex flex-col gap-6 md:flex-row justify-around px-10 pt-5 pb-32">
+    <div className="bg-[#280000] text-[#a39f8d] flex flex-col gap-20 md:flex-row justify-evenly pt-5 pb-32">
       <div className="flex flex-row md:flex-col  gap-3 ">
         <FaFacebookSquare
           size={35}
