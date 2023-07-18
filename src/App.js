@@ -10,6 +10,7 @@ import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
 import PublicProfilePage from "./Pages/PublicProfilePage";
 import AccountDetailsRegister from "./Pages/AccountDetailsRegister";
+import ChatPage from "./Pages/ChatPage";
 
 const App = () => {
   return (
@@ -24,7 +25,7 @@ const App = () => {
         <Route path="/settings" element={<UserSettings />} />
         <Route path="/profile/:id" element={<PublicProfilePage/>} />
         <Route path="/create-profile" element={<AccountDetailsRegister/>} />
-        <Route path="/" element={""} />
+        <Route path="/Chats/:id" element={<ChatPage/>} />
         <Route path="/" element={""} />
         <Route path="/" element={""} />
       </Routes>

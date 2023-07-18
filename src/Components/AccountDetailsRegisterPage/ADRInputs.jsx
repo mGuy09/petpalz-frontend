@@ -5,13 +5,11 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const ADRInputs = ({ options, callback, errorList, valid, invalid }) => {
   const GetInput = (value) => {
-    console.log(value);
     callback(value);
   };
 
   const GetInputEvent = (e) => {
     if (e.key === 'Enter' && e.target.value !== ''){
-      console.log();
       callback({ id:null,label: e.target.value });
     }
   }

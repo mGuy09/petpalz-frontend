@@ -25,7 +25,6 @@ const ADRSitterForm = ({ userType }) => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data, qualificationIds);
         setOptions(res.data);
       });
   }, [optionsChanged, qualificationIds]);
@@ -34,7 +33,6 @@ const ADRSitterForm = ({ userType }) => {
     axios
       .get("https://localhost:7105/api/ServiceTypes", { withCredentials: true })
       .then((res) => {
-        console.log(res.data);
         setServiceOptions(res.data);
       });
   }, []);
@@ -47,7 +45,6 @@ const ADRSitterForm = ({ userType }) => {
 
   const UpdateYoE = (e) => {
     e.preventDefault();
-    console.log(e);
     setYearsOfExperience(e.target.value);
   };
 
@@ -60,7 +57,6 @@ const ADRSitterForm = ({ userType }) => {
   }
 
   const GetValue = (callback) => {
-    console.log(callback);
     setServiceType(callback);
   };
   const VerifyQualification = (callback) => {
@@ -88,7 +84,6 @@ const ADRSitterForm = ({ userType }) => {
                 withCredentials: true,
               })
               .then((res) => {
-                console.log(res.data);
                 setOptions(res.data);
               })
               .then((r) => {
@@ -156,7 +151,6 @@ const ADRSitterForm = ({ userType }) => {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res)
           navigate("/pet-sitters&owners")
         });
     }

@@ -35,10 +35,10 @@ const SNOCard = ({ isPetSitter, info, skeleton }) => {
           <h1 className="font-medium text-lg underline underline-offset-[3px]">
             Description
           </h1>
-          <p className="overflow-hidden relative font-light whitespace-pre-line w-full">
+          <div className="overflow-hidden relative font-light whitespace-pre-line w-full">
             {info.description}
             <div className="absolute w-full h-[60%] bottom-0 right-0 bg-gradient-to-b from-transparent via-white/25 to-white"></div>
-          </p>
+          </div>
         </div>
         <div className="flex justify-between px-5">
           <Rating ratingValue={info.rating.rating} />
@@ -59,18 +59,18 @@ const SNOCard = ({ isPetSitter, info, skeleton }) => {
             d
           </div>
           <div className="flex flex-col gap-2">
-            <h1 className="text-2xl text-white/0 rounded-md bg-[#cecbc0] animate-pulse font-light">
+            <div className="text-2xl text-white/0 rounded-md bg-[#cecbc0] animate-pulse font-light">
               <p className="invisible">firstname lastname</p>
-            </h1>
-            <p className="font-medium text-white/0 rounded-md bg-[#cecbc0] animate-pulse underline underline-offset-[3px]">
+            </div>
+            <div className="font-medium text-white/0 rounded-md bg-[#cecbc0] animate-pulse underline underline-offset-[3px]">
               <p className="invisible">service</p>
-            </p>
+            </div>
           </div>
         </div>
         <div className="flex flex-col items-start gap-4 h-[80%] p-5">
-          <h1 className="font-medium text-xl underline rounded-md bg-[#cecbc0] animate-pulse text-white/0 underline-offset-[3px]">
+          <div className="font-medium text-xl underline rounded-md bg-[#cecbc0] animate-pulse text-white/0 underline-offset-[3px]">
             <p className="invisible">Description</p>
-          </h1>
+          </div>
 
           <div className="overflow-hidden h-[20rem] relative text-transparent rounded-md bg-[#cecbc0] animate-pulse font-light whitespace-pre-line w-full">
             <p className="invisible">

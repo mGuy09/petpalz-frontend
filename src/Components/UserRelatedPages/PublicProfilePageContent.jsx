@@ -40,7 +40,6 @@ const PublicProfilePageContent = ({ user, status }) => {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res);
           window.location.reload()
         });
   };
@@ -51,7 +50,6 @@ const PublicProfilePageContent = ({ user, status }) => {
   useEffect(() => {
     tabList.forEach((item) => {
       if (item.value === tab) {
-        console.log(item.value);
         item.checked = true;
       }
     });
@@ -64,7 +62,6 @@ const PublicProfilePageContent = ({ user, status }) => {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res);
           setReviews(res.data);
         });
     }
@@ -74,7 +71,7 @@ const PublicProfilePageContent = ({ user, status }) => {
       {user ? (
         <>
           <div className="h-[30rem] pt-10 w-full items-center justify-around gap-24 bg-gradient-to-br relative flex from-[#E84855] via-[#E84855] to-[#8f121d]">
-            <div className="border-4 border-white flex h-[67%] rounded-full">
+            <div className="border-4 border-white bg-white flex h-[67%] rounded-full">
               <img src={user.profilePicUrl} alt="" />
             </div>
             <div className="flex flex-col gap-4">
@@ -154,21 +151,21 @@ const PublicProfilePageContent = ({ user, status }) => {
               </div>
             </div>
           ) : tab === "2" ? (
-            <div className="flex flex-col gap-16 bg-[#F1F0EA] items-center justify-center py-10">
+            <div className="flex flex-col gap-10 bg-[#F1F0EA] items-center justify-center py-10">
               <h1 className="text-xl font-light drop-shadow-md">
                 Leave a Review
               </h1>
-              <div className="flex flex-col items-center px-5 w-[40%] py-10 bg-white gap-10">
+              <div className="flex flex-col drop-shadow-md rounded-lg items-center px-5 w-[40%] py-10 bg-white gap-10">
                 <input
                   type="text"
-                  className="px-4 py-2 w-[80%] rounded-lg border-2 border-[#E0DDcf]"
+                  className="px-4 drop-shadow-md py-2 my-5 w-[80%] rounded-lg border-2 border-[#E0DDcf]"
                   placeholder="Message"
                   onChange={UpdateReviewMessage}
                 />
                 <RatingInput callback={UpdateRating} />
                 <button
                   onClick={Submit}
-                  className="font-medium text-[#E84855] border-2 border-[#E84855] hover:text-white hover:bg-[#E84855] hover:scale-110 active:scale-105 active:bg-[#8a2931] active:border-[#8a2931] rounded-full px-4 py-[.35rem] duration-150"
+                  className="font-medium drop-shadow-md text-[#E84855] border-2 border-[#E84855] hover:text-white hover:bg-[#E84855] hover:scale-110 active:scale-105 active:bg-[#8a2931] active:border-[#8a2931] rounded-full px-4 py-[.35rem] duration-150"
                 >
                   Submit
                 </button>

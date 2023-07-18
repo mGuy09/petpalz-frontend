@@ -4,15 +4,55 @@ import SNOCard from "./SNOCard";
 import SNOFilterInput from "./SNOFilterInput";
 import SNOSkeleton from "./SNOSkeleton";
 import { BsArrowBarRight, BsArrowBarLeft } from "react-icons/bs";
+import { useAtom } from "jotai";
+import { Filtering, RatingFilter } from "../../StateManagement/State";
+import RatingInput from "../Misc/RatingInput";
+import {
+  FaSortAmountDown,
+  FaSortAmountDownAlt,
+  FaSortAmountUp,
+} from "react-icons/fa";
 
 const SNOContent = () => {
   const [locations, setLocations] = useState([]);
   const [isLocationsSmall, setLocationsSmall] = useState(true);
   const [filterState, setFilterState] = useState(true);
+  const [filter, setFilter] = useAtom(Filtering);
+  const [ratingFilter, setRatingFilter] = useAtom(RatingFilter);
   const [qualifications, setQualifications] = useState([]);
   const [currentUser, setCurrentUser] = useState();
   const [users, setUsers] = useState([]);
+  const [defaultUsers, setDefaultUsers] = useState([]);
+  const [reverseUsers, setReverseUsers] = useState([]);
   const [services, setServices] = useState([]);
+  const [reverseOrder, setOrder] = useState(false);
+
+  const [filterInputs, setFilterInputs] = useState([]);
+
+  const UpdateFilter = (e) => {
+    if (e.target.checked) {
+      setFilter((prev) => [...prev, e.target.value]);
+    } else {
+      setFilter((prev) => [...prev.filter((x) => x !== e.target.value)]);
+    }
+  };
+
+  const UpdateRatingFilter = (value) => {
+    setRatingFilter(value);
+  };
+
+  const SortOrder = () => {
+    setUsers(users.reverse());
+    setOrder(!reverseOrder);
+  };
+
+  useEffect(() => {
+    if (document.querySelectorAll(".checkbox")) {
+      document.querySelectorAll(".checkbox").forEach((x) => {
+        if (filter.includes(x.value)) x.checked = true;
+      });
+    }
+  }, [filter, filterState, isLocationsSmall]);
 
   useEffect(() => {
     axios
@@ -20,8 +60,6 @@ const SNOContent = () => {
         country: "romania",
       })
       .then((res) => {
-        console.log(res.data);
-        console.log(res.data.data.states.slice(0, 5));
         setLocations(res.data.data.states);
       });
   }, []);
@@ -32,7 +70,6 @@ const SNOContent = () => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res);
         localStorage.setItem("Auth", true);
         setCurrentUser(res.data);
       })
@@ -50,13 +87,12 @@ const SNOContent = () => {
     axios
       .get("https://localhost:7105/api/ServiceTypes", { withCredentials: true })
       .then((res) => {
-        console.log(res);
         setServices(
           currentUser
             ? res.data.filter((x) =>
                 currentUser.userType.name === "petSitter"
-                  ? x.isForOwner
-                  : x.isForOwner === false
+                  ? x.isForOwner === false
+                  : x.isForOwner === true
               )
             : []
         );
@@ -71,7 +107,7 @@ const SNOContent = () => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log(res);
+            // console.log(res.data);
             setUsers(res.data);
           });
       } else {
@@ -80,7 +116,7 @@ const SNOContent = () => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log(res);
+            // console.log(res.data);
             setUsers(res.data);
           });
       }
@@ -99,11 +135,11 @@ const SNOContent = () => {
         />
       </div>
       <div
-        className={`flex flex-col gap-16 w-[33%] border-b-2 border-b-[#c4c0b1] duration-300 bg-[#280000] p-10 z-[1]  ${
+        className={`flex flex-col gap-10 w-[33%] border-b-2 border-b-[#c4c0b1] duration-300 bg-[#280000] p-10 z-[1]  ${
           !filterState ? "-translate-x-full " : ""
         }`}
       >
-        <div className="flex font-medium text-white w-full items-center justify-between">
+        <div className="flex font-medium text-white pb-10 w-full items-center justify-between">
           <h1 className="text-2xl">Filter</h1>
           <BsArrowBarLeft
             onClick={() => setFilterState(!filterState)}
@@ -113,7 +149,28 @@ const SNOContent = () => {
             }`}
           />
         </div>
-        <div className="flex flex-col items-start gap-y-4">
+        <div className="text-white pt-5 border-t-2 border-t-white flex items-center justify-between">
+          <h1 className="text-lg font-medium">Sorting</h1>
+          <FaSortAmountDown
+            onClick={() => {
+              SortOrder();
+            }}
+            size={25}
+            className={`hover:scale-105 active:scale-95 delay-200 duration-150 ${
+              reverseOrder && "hidden"
+            }`}
+          />
+          <FaSortAmountDownAlt
+            onClick={() => {
+              SortOrder();
+            }}
+            size={25}
+            className={`hover:scale-105 active:scale-95 delay-200 duration-150 ${
+              !reverseOrder && "hidden"
+            }`}
+          />
+        </div>
+        <div className="flex flex-col border-t-2 border-t-white pt-5 items-start gap-y-4">
           <h1 className="text-lg font-medium text-white">Location</h1>
           <div className="flex flex-wrap duration-300 gap-x-4">
             {locations.length !== 0 ? (
@@ -122,6 +179,8 @@ const SNOContent = () => {
                   .slice(0, 6)
                   .map((state) => (
                     <SNOFilterInput
+                      callback={UpdateFilter}
+                      key={state.state_code}
                       filterId={state.state_code}
                       filterName={state.name.replace(" County", "")}
                     />
@@ -129,6 +188,8 @@ const SNOContent = () => {
               ) : (
                 locations.map((state) => (
                   <SNOFilterInput
+                    callback={UpdateFilter}
+                    key={state.state_code}
                     filterId={state.state_code}
                     filterName={state.name.replace(" County", "")}
                   />
@@ -153,6 +214,7 @@ const SNOContent = () => {
             ) : (
               qualifications.map((x) => (
                 <SNOFilterInput
+                  callback={UpdateFilter}
                   filterId={x.id}
                   filterName={x.name}
                   key={"q-" + x.name}
@@ -167,6 +229,7 @@ const SNOContent = () => {
             {services.length !== 0 ? (
               services.map((x) => (
                 <SNOFilterInput
+                  callback={UpdateFilter}
                   filterId={x.id}
                   filterName={x.name}
                   key={"q-" + x.name}
@@ -179,8 +242,8 @@ const SNOContent = () => {
         </div>
 
         <div>
-          <h1 className="text-lg font-medium text-white">Rating</h1>
-          <SNOFilterInput filterId={"rating"} filterName={"Rating"} />
+          <h1 className="text-lg font-medium text-white pb-5">Rating</h1>
+          <RatingInput callback={UpdateRatingFilter} />
         </div>
       </div>
 
@@ -190,14 +253,146 @@ const SNOContent = () => {
           filterState ? "px-16" : "-translate-x-20 px-0"
         }`}
       >
-        {users.length != 0 ? (
+        {/* {users.length != 0 ? filter ?(
           users.map((x) => (
             <SNOCard
               key={"c-" + x.userName}
               info={x}
-              isPetSitter={x.userType === 'petSitter' ? true : false}
+              isPetSitter={x.userType === "petSitter" ? true : false}
             />
           ))
+        ) : (
+          <>
+            <SNOCard skeleton={true} key={"1"} />
+            <SNOCard skeleton={true} key={"2"} />
+            <SNOCard skeleton={true} key={"3"} />
+          </>
+        )} */}
+        {users.length > 0 ? (
+          filter.length > 0 ? (
+            services.filter((x) => filter.includes(x.name)).length > 0 ? (
+              users[0].qualifications !== null ? (
+                ratingFilter > 0 ? (
+                  users
+                    .filter((x) =>
+                      x.qualifications.filter(
+                        (q) => filter.includes(q.name).length > 0
+                      )
+                    )
+                    .filter((x) => filter.includes(x.serviceType.name))
+                    .filter((x) => x.rating.rating >= ratingFilter)
+                    .map((x) => (
+                      <SNOCard
+                        info={x}
+                        isPetSitter={x.userType === "petSitter" ? true : false}
+                        key={"c-" + x.userName}
+                      />
+                    ))
+                ) : (
+                  users
+                    .filter((x) =>
+                      x.qualifications.filter(
+                        (q) => filter.includes(q.name).length > 0
+                      )
+                    )
+                    .filter((x) => filter.includes(x.serviceType.name))
+                    .map((x) => (
+                      <SNOCard
+                        info={x}
+                        isPetSitter={x.userType === "petSitter" ? true : false}
+                        key={"c-" + x.userName}
+                      />
+                    ))
+                )
+              ) : ratingFilter > 0 ? (
+                users
+                  .filter((x) => filter.includes(x.serviceType.name))
+                  .filter((x) => x.rating.rating >= ratingFilter)
+                  .map((x) => <SNOCard />)
+              ) : (
+                users
+                  .filter((x) => filter.includes(x.serviceType.name))
+                  .map((x) => <SNOCard />)
+              )
+            ) : users[0].qualifications !== null && ratingFilter > 0 ? (
+              users
+                .filter(
+                  (x) =>
+                    x.qualifications.filter((q) => filter.includes(q.name))
+                      .length > 0
+                )
+                .filter((x) => x.rating.rating >= ratingFilter)
+                .map((x) => (
+                  <SNOCard
+                    info={x}
+                    isPetSitter={x.userType === "petSitter" ? true : false}
+                    key={"c-" + x.userName}
+                  />
+                ))
+            ) : ratingFilter > 0 ? (
+              users
+                .filter(
+                  (x) =>
+                    x.qualifications.filter((q) => filter.includes(q.name))
+                      .length > 0
+                )
+                .filter((x) => x.rating.rating >= ratingFilter)
+                .map((x) => (
+                  <SNOCard
+                    info={x}
+                    isPetSitter={x.userType === "petSitter" ? true : false}
+                    key={"c-" + x.userName}
+                  />
+                ))
+            ) : ratingFilter > 0 ? (
+              users
+                .filter(
+                  (x) =>
+                    x.qualifications.filter((q) => filter.includes(q.name))
+                      .length > 0
+                )
+                .filter((x) => x.rating.rating >= ratingFilter)
+                .map((x) => (
+                  <SNOCard
+                    info={x}
+                    isPetSitter={x.userType === "petSitter" ? true : false}
+                    key={"c-" + x.userName}
+                  />
+                ))
+            ) : (
+              users
+                .filter(
+                  (x) =>
+                    x.qualifications.filter((q) => filter.includes(q.name))
+                      .length > 0
+                )
+                .map((x) => (
+                  <SNOCard
+                    info={x}
+                    isPetSitter={x.userType === "petSitter" ? true : false}
+                    key={"c-" + x.userName}
+                  />
+                ))
+            )
+          ) : ratingFilter > 0 ? (
+            users
+              .filter((x) => x.rating.rating >= ratingFilter)
+              .map((x) => (
+                <SNOCard
+                  info={x}
+                  isPetSitter={x.userType === "petSitter" ? true : false}
+                  key={"c-" + x.userName}
+                />
+              ))
+          ) : (
+            users.map((x) => (
+              <SNOCard
+                info={x}
+                isPetSitter={x.userType === "petSitter" ? true : false}
+                key={"c-" + x.userName}
+              />
+            ))
+          )
         ) : (
           <>
             <SNOCard skeleton={true} />

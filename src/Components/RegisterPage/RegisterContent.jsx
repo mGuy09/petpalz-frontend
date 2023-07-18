@@ -210,7 +210,6 @@ const RegisterContent = () => {
   };
 
   useEffect(() => {
-    console.log(errorList);
   }, [errorList]);
 
   return (

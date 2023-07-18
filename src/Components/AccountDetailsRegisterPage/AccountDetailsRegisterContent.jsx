@@ -7,7 +7,6 @@ const AccountDetailsRegisterContent = () => {
   const [serviceType, setServiceType] = useState()
   const [qualifications, setQualifications] = useState([])
 
-  console.log(userType)
 
   
   return (

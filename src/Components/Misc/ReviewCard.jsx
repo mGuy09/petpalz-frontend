@@ -10,7 +10,6 @@ const ReviewCard = ({ review, deleteCallback }) => {
     
     const DeleteReview = () => {
         axios.delete(`https://localhost:7105/api/Reviews/${review.id}`, { withCredentials: true }).then(res => {
-            console.log(res)
             setModal(false)
             deleteCallback(review.id)
         })
@@ -19,7 +18,6 @@ const ReviewCard = ({ review, deleteCallback }) => {
     axios
       .get(`https://localhost:7105/api/Users/${review.postUserId}`)
       .then((res) => {
-        console.log(res);
         setUser(res.data);
       });
   }, []);
@@ -59,7 +57,7 @@ const ReviewCard = ({ review, deleteCallback }) => {
         </div>
         <div className="w-full h-[2px] rounded-full bg-[#c4c0b1]"></div>
         <p className="px-3 font-medium drop-shadow-md">Review:</p>
-        <div className=" drop-shadow-md flex gap-3 items-center px-10 pb-2 text-lg capitalize">
+        <div className=" drop-shadow-md flex gap-3 items-center px-10 pb-2 text-lg">
           <AiOutlineLine size={20} /> {review.name}
           {review.name
             .substring(review.name.length - 1)
@@ -85,13 +83,13 @@ const ReviewCard = ({ review, deleteCallback }) => {
               onClick={() => {
                 DeleteReview();
               }}
-              className="px-4 py-1 border-2 border-[#E84855] hover:scale-110 duration-150 text-white hover:bg-[#94232d] bg-[#e84855] hover:border-[#94232d] active:scale-100 rounded-full"
+              className="px-4 py-1 border-2 drop-shadow-md border-[#E84855] hover:scale-110 duration-150 text-white hover:bg-[#94232d] bg-[#e84855] hover:border-[#94232d] active:scale-100 rounded-full"
             >
               Delete
             </button>
             <button
               onClick={() => setModal(false)}
-              className="px-4 py-1 text-[#a19d89] border-2 border-[#cec8b1] hover:scale-110 duration-150 hover:text-white hover:bg-[#cec8b1] active:scale-100 rounded-full"
+              className="px-4 py-1 text-[#a19d89] border-2 drop-shadow-md border-[#cec8b1] hover:scale-110 duration-150 hover:text-white hover:bg-[#cec8b1] active:scale-100 rounded-full"
             >
               Cancel
             </button>

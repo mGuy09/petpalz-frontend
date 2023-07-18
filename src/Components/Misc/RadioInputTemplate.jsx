@@ -16,7 +16,7 @@ const RadioInputTemplate = ({ name, label, value, callback }) => {
       />
       <label
         htmlFor={label}
-        className="font-medium border-b-4 border-b-transparent duration-150 py-1 text-[#9c998f] hover:border-b-[#280000] active:scale-95 hover:scale-105 hover:text-[#280000] peer-checked:border-b-[#280000] peer-checked:text-[#280000]"
+        className="font-medium border-b-4 cursor-pointer border-b-transparent duration-150 py-1 text-[#9c998f] hover:border-b-[#280000] active:scale-95 hover:scale-105 hover:text-[#280000] peer-checked:border-b-[#280000] peer-checked:text-[#280000]"
       >
         {label}
       </label>

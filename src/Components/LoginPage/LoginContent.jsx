@@ -63,7 +63,6 @@ const LoginContent = () => {
   }
 
   useEffect(() => {
-    console.log(errorList);
   }, [errorList]);
 
   return (

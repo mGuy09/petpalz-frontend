@@ -28,7 +28,6 @@ const Navbar = () => {
     axios
       .get("https://localhost:7105/api/Users/Logout", { withCredentials: true })
       .then((res) => {
-        console.log(res);
         localStorage.removeItem("Auth");
         navigate("login");
       });
@@ -48,7 +47,6 @@ const Navbar = () => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res);
         setUser(res.data);
       });
   }, [localStorage.getItem("Auth")]);
@@ -377,7 +375,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex gap-5 items-center">
-          <Link to={`/Chats/${user?user.id: 'notFound'}`}>
+          <Link to={`/Chats/${user ? user.id : "notFound"}`}>
             <div className="rounded-full p-2 hover:bg-[#c4c0b1] text-[#9c998f] hover:text-[#280000] duration-150 active:scale-105 hover:scale-110">
               <IoIosChatbubbles size={27} className="" />
             </div>
@@ -394,17 +392,13 @@ const Navbar = () => {
           </Link>
           <Link to={"/About"}>
             <div className="rounded-full p-2 hover:bg-[#c4c0b1] text-[#9c998f] hover:text-[#280000] duration-150 active:scale-105 hover:scale-110">
-              <HiInformationCircle
-                size={27}
-                className=""
-                
-              />
+              <HiInformationCircle size={27} className="" />
             </div>
           </Link>
         </div>
         <div
           onClick={() => setDropdown(true)}
-          className="rounded-full text-[#9c998f] hover:bg-[#c4c0b1] hover:text-[#280000] p-2 hover:scale-110 active:scale-105 duration-150"
+          className="rounded-full text-[#9c998f] cursor-pointer hover:bg-[#c4c0b1] hover:text-[#280000] p-2 hover:scale-110 active:scale-105 duration-150"
         >
           <FaUserCircle size={27} />
         </div>
@@ -420,7 +414,7 @@ const Navbar = () => {
                 <img
                   src={user.profilePicUrl}
                   alt="pfp"
-                  className="w-[4.5rem] z-[2] border-2 border-[#c4c0b1] rounded-full"
+                  className="w-[4.5rem] z-[2] border-2 bg-[#c4c0b1] drop-shadow-md border-[#c4c0b1] rounded-full"
                 />
               ) : (
                 <div className="w-[2rem] h-[2rem] bg-[#c4c0b1] rounded-full"></div>
@@ -440,15 +434,18 @@ const Navbar = () => {
 
             <div>
               <div className="w-full border-t gap-5 py-3 justify-center border-t-[#c4c0b1] flex ">
-                  <div onMouseDown={()=>navigate(`/user/${user ? user.id : 'notFound'}`)} className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]">
-                    <AiFillProfile
-                      size={25}
-                      className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
-                    />
-                  </div>
+                <div
+                  onMouseDown={() => navigate(`/user`)}
+                  className="p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
+                >
+                  <AiFillProfile
+                    size={25}
+                    className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
+                  />
+                </div>
                 <div
                   onMouseUp={Logout}
-                  className={`p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1] ${
+                  className={`p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1] ${
                     !loggedIn ? "hidden" : "visible"
                   }`}
                 >
@@ -461,7 +458,7 @@ const Navbar = () => {
                   to={"/login"}
                   className={`${!loggedIn ? "visible" : "hidden"}`}
                 >
-                  <div className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]">
+                  <div className="p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]">
                     <FaSignInAlt
                       size={25}
                       className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
@@ -469,7 +466,10 @@ const Navbar = () => {
                   </div>
                 </Link>
                 <Link>
-                  <div onMouseDown={()=>navigate("/settings")} className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]">
+                  <div
+                    onMouseDown={() => navigate("/settings")}
+                    className="p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
+                  >
                     <FaCog
                       size={25}
                       className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"

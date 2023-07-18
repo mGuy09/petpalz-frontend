@@ -9,13 +9,10 @@ const PublicProfilePage = () => {
   const ref = useParams()
 
   useEffect(() => {
-    console.log(ref)
     axios.get(`https://localhost:7105/api/Users/${ref.id}`).then((res) => {
-      console.log(res);
       setUser(res.data);
     }).then(x => {
       axios.get(`https://localhost:7105/api/Status/${ref.id}`).then(res => {
-        console.log(res)
         setStatus(res)
       })
     })

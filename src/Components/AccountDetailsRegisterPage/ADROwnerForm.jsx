@@ -11,7 +11,6 @@ const ADROwnerForm = ({ userType }) => {
   const [serviceOptions, setServiceOptions] = useState([]);
   const [errorList, setErrorList] = useState([]);
 
-  console.log(userType, descriptionText, serviceType);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +23,6 @@ const ADROwnerForm = ({ userType }) => {
 
   const UpdateDescription = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
     setDescription(e.target.value);
     setDescriptionL(150 - e.target.value.length);
   };
@@ -34,7 +32,6 @@ const ADROwnerForm = ({ userType }) => {
   };
 
   const GetValue = (callback) => {
-    console.log(callback);
     setServiceType(callback);
   };
 
