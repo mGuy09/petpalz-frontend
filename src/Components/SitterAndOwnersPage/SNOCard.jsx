@@ -43,7 +43,7 @@ const SNOCard = ({ isPetSitter, info, skeleton }) => {
         <div className="flex justify-between px-5">
           <Rating ratingValue={info.rating.rating} />
           <button
-            onMouseUp={() => navigate(`/profile/${info.id}`)}
+            onMouseUp={() => navigate(`/profile/${info.userName}`)}
             className="shadow-md px-2 py-1 border-2 rounded-full border-[#E84855] text-[#E84855] hover:text-white hover:bg-[#E84855] active:border-[#8a2931] active:bg-[#8a2931] hover:scale-110 active:scale-105 duration-150 font-medium"
           >
             View More
@@ -118,7 +118,7 @@ const SNOCard = ({ isPetSitter, info, skeleton }) => {
         <div className="flex justify-between px-5">
           <Rating ratingValue={info.rating.rating} />
           <button
-            onMouseUp={() => navigate(`/profile/${info.id}`)}
+            onMouseUp={() => navigate(`/profile/${info.userName}`)}
             className="shadow-md px-2 py-1 border-2 rounded-full border-[#E84855] text-[#E84855] hover:text-white hover:bg-[#E84855] active:border-[#8a2931] active:bg-[#8a2931] hover:scale-110 active:scale-105 duration-150 font-medium"
           >
             View More

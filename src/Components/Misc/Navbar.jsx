@@ -241,119 +241,7 @@ const Navbar = () => {
   }
   return (
     <div className="relative">
-      {/* Sidebar
-
-      <div
-        className={`h-screen fixed w-[20%] flex-col py-5 z-30 -right-0 bg-[#F1F0EA] duration-500 ${
-          !isOpen && "translate-x-[100%]"
-        }`}
-      >
-        <div className="flex justify-around items-center ">
-          <Link to={"/"} className="mx-5 mb-[0.90rem] w-[13%]">
-            <img src="https://i.ibb.co/2nMgm1V/heart.png" alt="" />
-          </Link>
-          <div
-            onClick={OpenClose}
-            className="group relative flex rounded-full justify-end w-full mb-12 mt-0 p-2 h-3"
-          >
-            <HiMenuAlt3
-              size={27}
-              className="scale-100 absolute group-hover:scale-0 transition-all"
-            />
-            <AiOutlineClose
-              size={27}
-              className="scale-0 absolute group-hover:scale-100 transition-all"
-            />
-          </div>
-        </div>
-        <div className="flex flex-col h-[95%] justify-between">
-          <ul className="w-full border-t border-t-[#c4c0b1]">
-            <Link to={"/"}>
-              <li
-                onClick={OpenClose}
-                className="px-5 py-3 border-b cursor-pointer border-[#c4c0b1] w-full hover:bg-[#E84855] text-lg transition-all hover:text-white font-medium duration-150 "
-              >
-                Home
-              </li>
-            </Link>
-            <Link to={"/pet-sitters&owners"}>
-              <li
-                onClick={OpenClose}
-                className="px-5 py-3 border-b cursor-pointer border-[#c4c0b1] w-full hover:bg-[#E84855] text-lg transition-all hover:text-white font-medium duration-150 "
-              >
-                Pet Sitters & Owners
-              </li>
-            </Link>
-            <Link to={"/about-us"}>
-              <li
-                onClick={OpenClose}
-                className="px-5 py-3 border-b cursor-pointer border-[#c4c0b1] w-full hover:bg-[#E84855] text-lg transition-all hover:text-white font-medium duration-150 "
-              >
-                About
-              </li>
-            </Link>
-            <Link to={"/contact"}>
-              <li
-                onClick={OpenClose}
-                className="px-5 py-3  w-full hover:bg-[#E84855] cursor-pointer text-lg transition-all hover:text-white font-medium duration-150 "
-              >
-                Contact Us
-              </li>
-            </Link>
-          </ul>
-          <div className="w-full border-t gap-5 py-3 justify-center border-t-[#c4c0b1] flex ">
-            <Link to={"/user"}>
-              <div
-                onClick={OpenClose}
-                className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
-              >
-                <FaUserCircle
-                  size={30}
-                  className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
-                />
-              </div>
-            </Link>
-            <div
-              onMouseUp={Logout}
-              onClick={OpenClose}
-              className={`p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1] ${
-                !loggedIn ? "hidden" : "visible"
-              }`}
-            >
-              <FaSignOutAlt
-                size={30}
-                className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
-              />
-            </div>
-            <Link
-              to={"/login"}
-              className={`${!loggedIn ? "visible" : "hidden"}`}
-            >
-              <div
-                onClick={OpenClose}
-                className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
-              >
-                <FaSignInAlt
-                  size={30}
-                  className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
-                />
-              </div>
-            </Link>
-            <Link to={"/settings"}>
-              <div
-                onClick={OpenClose}
-                className="p-3 rounded-full cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
-              >
-                <FaCog
-                  size={30}
-                  className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
-                />
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div> */}
-
+      
       {/* Navbar */}
 
       <div
@@ -375,7 +263,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex gap-5 items-center">
-          <Link to={`/Chats/${user ? user.id : "notFound"}`}>
+          <Link to={`/Chats/home`}>
             <div className="rounded-full p-2 hover:bg-[#c4c0b1] text-[#9c998f] hover:text-[#280000] duration-150 active:scale-105 hover:scale-110">
               <IoIosChatbubbles size={27} className="" />
             </div>

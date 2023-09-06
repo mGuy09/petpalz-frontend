@@ -6,6 +6,7 @@ import axios from "axios";
 import ReviewCard from "../Misc/ReviewCard";
 import Rating from "../Misc/Rating";
 import RatingInput from "../Misc/RatingInput";
+import { useNavigate } from "react-router";
 
 const PublicProfilePageContent = ({ user, status }) => {
   const [tab, setTab] = useState("0");
@@ -13,6 +14,7 @@ const PublicProfilePageContent = ({ user, status }) => {
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
   const tabList = document.querySelectorAll(".tab");
+  const navigate = useNavigate();
   const userType = user
     ? user.userType.substring(0, 3) + " " + user.userType.substring(3)
     : "";
@@ -46,6 +48,27 @@ const PublicProfilePageContent = ({ user, status }) => {
   const DeleteReview = (id) => {
     setReviews(reviews.filter(x => x.id !== id))
   }
+
+
+  const ChatBubble = () => {
+    axios.get('https://localhost:7105/api/Users/CurrentUser', { withCredentials: true }).then(res => {
+      axios.get(`https://localhost:7105/api/Chats/${user.id}`, { withCredentials: true }).then(x => {
+        console.log(res.data)
+        console.log(x.data[0])
+        if (x.data.length < 1) {
+          axios.post('https://localhost:7105/api/Chats', { userId1: res.data.id, userId2: user.id }, { withCredentials: true }).then(y => {
+            if (y.status == 200) {
+              navigate(`/Chats/${y.data.toString()}`)
+            }
+          })
+        }
+        else {
+          navigate(`/Chats/${x.data[0].id.toString()}`)
+        }
+      })
+    })
+  }
+
 
   useEffect(() => {
     tabList.forEach((item) => {
@@ -86,9 +109,15 @@ const PublicProfilePageContent = ({ user, status }) => {
               </div>
             </div>
           </div>
-          <div className="fixed shadow-lg shadow-black/30 duration-150 bottom-16 right-16 bg-[#cec8b1] text-[#280000] hover:text-white active:scale-[1.07] hover:scale-[1.17] p-4 rounded-full">
+
+          {/* Chat Bubble User */}
+
+          <div onClick={ChatBubble} className="fixed shadow-lg shadow-black/30 duration-150 bottom-16 right-16 bg-[#cec8b1] text-[#280000] hover:text-white active:scale-[1.07] hover:scale-[1.17] p-4 rounded-full">
             <BsFillChatFill size={32} />
           </div>
+
+
+
           <div className="px-10 flex gap-[16rem] bg-[#E0DDCF] py-5 justify-center">
             <RadioInputTemplate
               name={"tabs"}
@@ -114,12 +143,12 @@ const PublicProfilePageContent = ({ user, status }) => {
               <div className="flex pb-10 border-b-2 border-b-[#E0DDcf] w-[70%] flex-wrap gap-5 items-center justify-center ">
                 {user.qualifications
                   ? user.qualifications.map((x) => (
-                      <SNOQualificationTag
-                        QualificationId={x.id}
-                        QualificationName={x.name}
-                        key={x.name}
-                      />
-                    ))
+                    <SNOQualificationTag
+                      QualificationId={x.id}
+                      QualificationName={x.name}
+                      key={x.name}
+                    />
+                  ))
                   : user.qualifications}
               </div>
               <div className="flex flex-col pb-16 gap-5 w-[54%] text-xl leading-relaxed">
@@ -127,7 +156,7 @@ const PublicProfilePageContent = ({ user, status }) => {
                 <p className="font-light drop-shadow-md">
                   {user.description}
                   {user.description.substring(user.description.length - 1) ===
-                  "."
+                    "."
                     ? ""
                     : "."}
                 </p>

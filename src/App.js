@@ -12,8 +12,10 @@ import PublicProfilePage from "./Pages/PublicProfilePage";
 import AccountDetailsRegister from "./Pages/AccountDetailsRegister";
 import ChatPage from "./Pages/ChatPage";
 
+
 const App = () => {
   return (
+    
     <div>
       <Navbar />
       <Routes>
@@ -23,9 +25,9 @@ const App = () => {
         <Route path="/pet-sitters&owners" element={<SNOPage />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="/settings" element={<UserSettings />} />
-        <Route path="/profile/:id" element={<PublicProfilePage/>} />
+        <Route path="/profile/:name" element={<PublicProfilePage/>} />
         <Route path="/create-profile" element={<AccountDetailsRegister/>} />
-        <Route path="/Chats/:id" element={<ChatPage/>} />
+        <Route path="/Chats/:chatId" element={<ChatPage/>} />
         <Route path="/" element={""} />
         <Route path="/" element={""} />
       </Routes>
