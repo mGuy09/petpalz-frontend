@@ -90,10 +90,10 @@ const SNOContent = () => {
         setServices(
           currentUser
             ? res.data.filter((x) =>
-                currentUser.userType.name === "petSitter"
-                  ? x.isForOwner === false
-                  : x.isForOwner === true
-              )
+              currentUser.userType === "petSitter"
+                ? x.isForOwner === true
+                : x.isForOwner === false
+            )
             : []
         );
       });
@@ -123,30 +123,27 @@ const SNOContent = () => {
     }
   }, [currentUser]);
   return (
-    <div className=" w-[full] duration-300 transition-all pt-[3.5rem] flex justify-between">
+    <div className=" w-full duration-300 transition-all pt-[3.5rem] flex justify-between">
       {/* Filter */}
       <div className="fixed w-[3%] text-white bg-[#280000] py-10 duration-200 flex justify-center h-full">
         <BsArrowBarRight
           onClick={() => setFilterState(true)}
           size={25}
-          className={`duration-200 ${
-            filterState ? "invisible rotate-180" : "visible"
-          }`}
+          className={`duration-200 ${filterState ? "invisible rotate-180" : "visible"
+            }`}
         />
       </div>
       <div
-        className={`flex flex-col gap-10 w-[33%] border-b-2 border-b-[#c4c0b1] duration-300 bg-[#280000] p-10 z-[1]  ${
-          !filterState ? "-translate-x-full " : ""
-        }`}
+        className={`flex flex-col gap-10 w-1/5 border-b-2 border-b-[#c4c0b1] duration-300 bg-[#280000] p-10 z-[1]  ${!filterState ? "-translate-x-full " : ""
+          }`}
       >
         <div className="flex font-medium text-white pb-10 w-full items-center justify-between">
           <h1 className="text-2xl">Filter</h1>
           <BsArrowBarLeft
             onClick={() => setFilterState(!filterState)}
             size={25}
-            className={`duration-200 ${
-              !filterState ? "translate-x-[320%] rotate-180 invisible" : ""
-            }`}
+            className={`duration-200 ${!filterState ? "translate-x-[320%] rotate-180 invisible" : ""
+              }`}
           />
         </div>
         <div className="text-white pt-5 border-t-2 border-t-white flex items-center justify-between">
@@ -156,18 +153,16 @@ const SNOContent = () => {
               SortOrder();
             }}
             size={25}
-            className={`hover:scale-105 active:scale-95 delay-200 duration-150 ${
-              reverseOrder && "hidden"
-            }`}
+            className={`hover:scale-105 active:scale-95 delay-200 duration-150 ${reverseOrder && "hidden"
+              }`}
           />
           <FaSortAmountDownAlt
             onClick={() => {
               SortOrder();
             }}
             size={25}
-            className={`hover:scale-105 active:scale-95 delay-200 duration-150 ${
-              !reverseOrder && "hidden"
-            }`}
+            className={`hover:scale-105 active:scale-95 delay-200 duration-150 ${!reverseOrder && "hidden"
+              }`}
           />
         </div>
         <div className="flex flex-col border-t-2 border-t-white pt-5 items-start gap-y-4">
@@ -206,7 +201,7 @@ const SNOContent = () => {
             {isLocationsSmall ? "Show More" : "Show Less"}
           </button>
         </div>
-        <div className="flex flex-col items-start gap-y-4">
+        {currentUser ? currentUser.userType === "petSitter" ? '' : <div className="flex flex-col items-start gap-y-4">
           <h1 className="text-lg font-medium text-white">Qualifications</h1>
           <div className="flex flex-wrap duration-300 gap-x-4">
             {qualifications.length === 0 ? (
@@ -215,14 +210,15 @@ const SNOContent = () => {
               qualifications.map((x) => (
                 <SNOFilterInput
                   callback={UpdateFilter}
-                  filterId={x.id}
+                  filterId={x.id + 'q'}
                   filterName={x.name}
                   key={"q-" + x.name}
                 />
               ))
             )}
           </div>
-        </div>
+        </div> : ''}
+
         <div className="flex flex-col items-start gap-y-4">
           <h1 className="text-lg font-medium text-white">Services</h1>
           <div className="flex flex-wrap duration-300 gap-x-4">
@@ -230,9 +226,9 @@ const SNOContent = () => {
               services.map((x) => (
                 <SNOFilterInput
                   callback={UpdateFilter}
-                  filterId={x.id}
+                  filterId={x.id + 's'}
                   filterName={x.name}
-                  key={"q-" + x.name}
+                  key={"s-" + x.name}
                 />
               ))
             ) : (
@@ -249,25 +245,9 @@ const SNOContent = () => {
 
       {/* Content */}
       <div
-        className={`flex flex-col duration-300 gap-[8rem] py-10 items-center justify-start my-10 ${
-          filterState ? "px-16" : "-translate-x-20 px-0"
-        }`}
+        className={`flex flex-col duration-300 gap-[8rem] py-10 items-center justify-start my-10 ${filterState ? "px-16" : "-translate-x-20 px-0"
+          }`}
       >
-        {/* {users.length != 0 ? filter ?(
-          users.map((x) => (
-            <SNOCard
-              key={"c-" + x.userName}
-              info={x}
-              isPetSitter={x.userType === "petSitter" ? true : false}
-            />
-          ))
-        ) : (
-          <>
-            <SNOCard skeleton={true} key={"1"} />
-            <SNOCard skeleton={true} key={"2"} />
-            <SNOCard skeleton={true} key={"3"} />
-          </>
-        )} */}
         {users.length > 0 ? (
           filter.length > 0 ? (
             services.filter((x) => filter.includes(x.name)).length > 0 ? (
@@ -308,11 +288,15 @@ const SNOContent = () => {
                 users
                   .filter((x) => filter.includes(x.serviceType.name))
                   .filter((x) => x.rating.rating >= ratingFilter)
-                  .map((x) => <SNOCard />)
+                  .map((x) => <SNOCard info={x}
+                    isPetSitter={x.userType === "petSitter" ? true : false}
+                    key={"c-" + x.userName} />)
               ) : (
                 users
                   .filter((x) => filter.includes(x.serviceType.name))
-                  .map((x) => <SNOCard />)
+                  .map((x) => <SNOCard info={x}
+                    isPetSitter={x.userType === "petSitter" ? true : false}
+                    key={"c-" + x.userName} />)
               )
             ) : users[0].qualifications !== null && ratingFilter > 0 ? (
               users

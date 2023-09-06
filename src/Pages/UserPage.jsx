@@ -12,11 +12,11 @@ const UserPage = () => {
     })
   }, [])
   useEffect(() => {
-    if(user) axios.get(`https://localhost:7105/api/Status/${user.id}`, { withCredentials: true }).then(res => {
+    if (user) axios.get(`https://localhost:7105/api/Status/${user.id}`, { withCredentials: true }).then(res => {
       console.log(res)
       setStatus(res.data)
     })
-  },[user])
+  }, [user])
   return (
     <div><UserContent user={user} status={status} /></div>
   )
