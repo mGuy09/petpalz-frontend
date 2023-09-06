@@ -13,6 +13,14 @@ const LoginContent = () => {
   
   const navigate = useNavigate()
 
+  useEffect(()=>{
+    axios.get('https://localhost:7105/api/Users/CurrentUser', {withCredentials: true}).then((res)=>{
+      if(res.data != null){
+        navigate('/pet-sitters&owners')
+      }
+    })
+  },[])
+
   const UpdatePassword = (e) => {
     e.preventDefault();
     setPassword(e.target.value);
@@ -64,6 +72,8 @@ const LoginContent = () => {
 
   useEffect(() => {
   }, [errorList]);
+
+  
 
   return (
     <div className="relative h-[100vh]">

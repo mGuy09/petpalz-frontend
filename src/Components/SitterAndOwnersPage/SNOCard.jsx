@@ -9,7 +9,7 @@ const SNOCard = ({ isPetSitter, info, skeleton }) => {
     return (
       <div className="bg-white flex flex-col gap-5 pb-20 w-[40%] p-5  shadow-lg">
         <div className="flex gap-20">
-          <div className="w-[5rem] border-2 border-[#c4c0b1] hover:scale-110 duration-200 h-[5rem] flex items-center justify-center bg-[#b1aea0] rounded-full shadow-md">
+          <div onMouseUp={() => navigate(`/profile/${info.id}`)} className="w-[5rem] border-2 border-[#c4c0b1] hover:scale-110 duration-200 h-[5rem] flex items-center justify-center bg-[#b1aea0] rounded-full shadow-md">
             <img src={info.profilePicUrl} alt="pfp" />
           </div>
           <div className="flex flex-col">
@@ -92,7 +92,7 @@ const SNOCard = ({ isPetSitter, info, skeleton }) => {
     return (
       <div className="bg-white flex flex-col gap-5 w-[30%] p-5  shadow-lg">
         <div className="flex gap-20">
-          <div className="w-[5rem] h-[5rem] hover:scale-110 duration-200 flex items-center justify-center bg-[#b1aea0] rounded-full shadow-md">
+          <div onMouseUp={() => navigate(`/profile/${info.id}`)} className="w-[5rem] h-[5rem] hover:scale-110 duration-200 flex items-center justify-center bg-[#b1aea0] rounded-full shadow-md">
             <img src={info.profilePicUrl} alt="pfp" />
           </div>
           <div className="flex flex-col">

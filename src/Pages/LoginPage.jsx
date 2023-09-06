@@ -1,7 +1,7 @@
 import React from 'react'
 import LoginContent from '../Components/LoginPage/LoginContent'
 
-const LoginPage = () => {
+const LoginPage = () => {  
   return (
     <LoginContent/>
   )
