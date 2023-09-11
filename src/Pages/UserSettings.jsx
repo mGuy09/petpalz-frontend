@@ -1,8 +1,9 @@
 import React from 'react'
+import SettingsContent from '../Components/UserRelatedPages/SettingsContent'
 
 const UserSettings = () => {
   return (
-    <div>UserSettings</div>
+  <div><SettingsContent/></div>
   )
 }
 

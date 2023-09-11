@@ -8,7 +8,6 @@ import { useNavigate } from "react-router";
 const UserContent = ({ user, status }) => {
   const [tab, setTab] = useState("0");
   const [reviews, setReviews] = useState([]);
-  const [statusUpdate, setStatusUpdate] = useState(false)
   const tabList = document.querySelectorAll(".tab");
   const navigate = useNavigate();
 
@@ -20,31 +19,15 @@ const UserContent = ({ user, status }) => {
     setTab(callback);
   };
 
-  const StatusState = (e) => {
-    console.log(e)
-    console.log(e.target.innerText, status.name);
-    if(e.target.innerText === status.name){
-      setStatusUpdate(false)
-    }
-    else{
-      setStatusUpdate(true)
-    }
-  }
-
-  const UpdateStatus = (e) => {
-    if(e.key === "Enter"){
-      console.log(e.key)
-    }
-  }
-
   useEffect(() => {
-    if (user) {
-      axios.get(`https://localhost:7105/api/Reviews/${user.id}`).then((res) => {
+    console.log(user)
+    if (tab === '1') {
+      axios.get(`https://localhost:7105/api/Reviews/${user.id}`, {withCredentials: true}).then((res) => {
         console.log(res);
         setReviews(res.data);
       });
     }
-  }, [user]);
+  }, [tab]);
 
   useEffect(() => {
     tabList.forEach((item) => {

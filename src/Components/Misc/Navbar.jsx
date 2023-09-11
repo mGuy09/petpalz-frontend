@@ -331,6 +331,17 @@ const Navbar = () => {
                     className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
                   />
                 </div>
+                <Link>
+                  <div
+                    onMouseDown={() => navigate("/settings")}
+                    className="p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
+                  >
+                    <FaCog
+                      size={25}
+                      className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
+                    />
+                  </div>
+                </Link>
                 <div
                   onMouseUp={Logout}
                   className={`p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1] ${
@@ -348,17 +359,6 @@ const Navbar = () => {
                 >
                   <div className="p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]">
                     <FaSignInAlt
-                      size={25}
-                      className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
-                    />
-                  </div>
-                </Link>
-                <Link>
-                  <div
-                    onMouseDown={() => navigate("/settings")}
-                    className="p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]"
-                  >
-                    <FaCog
                       size={25}
                       className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
                     />

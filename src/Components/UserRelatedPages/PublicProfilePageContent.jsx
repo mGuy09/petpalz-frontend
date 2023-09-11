@@ -131,12 +131,7 @@ const PublicProfilePageContent = ({ user, status }) => {
               value={1}
               callback={UpdateTab}
             />
-            <RadioInputTemplate
-              name={"tabs"}
-              label={"Add Review"}
-              value={2}
-              callback={UpdateTab}
-            />
+            
           </div>
           {tab === "0" ? (
             <div className="flex flex-col gap-16 bg-[#F1F0EA] items-center justify-center py-10">
@@ -163,6 +158,7 @@ const PublicProfilePageContent = ({ user, status }) => {
               </div>
             </div>
           ) : tab === "1" ? (
+
             <div className="flex flex-col gap-16 bg-[#F1F0EA] items-center justify-center py-10">
               <div className="flex gap-[12rem] border-b-2 justify-center w-[70%] border-b-[#E0DDcf] pb-10 pt-5">
                 <p className="flex gap-3 text-lg font-medium drop-shadow-md">
@@ -173,31 +169,34 @@ const PublicProfilePageContent = ({ user, status }) => {
                 </p>
                 <Rating ratingValue={reviews.length === 0 ? 0 : user.rating.rating} />
               </div>
+
+
+              <div className="flex flex-col gap-9 bg-[#F1F0EA] -mt-16 items-center w-full justify-center py-10">
+                <h1 className="text-xl font-light drop-shadow-md">
+                  Leave a Review
+                </h1>
+                <div className="flex flex-col drop-shadow-md rounded-lg items-center px-5 w-[40%] py-10 bg-white gap-10">
+                  <input
+                    type="text"
+                    className="px-4 drop-shadow-md py-2 my-5 w-[80%] rounded-lg border-2 border-[#E0DDcf]"
+                    placeholder="Message"
+                    onChange={UpdateReviewMessage}
+                  />
+                  <RatingInput callback={UpdateRating} />
+                  <button
+                    onClick={Submit}
+                    className="font-medium drop-shadow-md text-[#E84855] border-2 border-[#E84855] hover:text-white hover:bg-[#E84855] hover:scale-110 active:scale-105 active:bg-[#8a2931] active:border-[#8a2931] rounded-full px-4 py-[.35rem] duration-150"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+
+
               <div className="flex flex-col gap-10 pb-10">
                 {reviews.length > 0
                   ? reviews.map((x) => <ReviewCard review={x} deleteCallback={DeleteReview} />)
                   : "No Reviews Yet"}
-              </div>
-            </div>
-          ) : tab === "2" ? (
-            <div className="flex flex-col gap-10 bg-[#F1F0EA] items-center justify-center py-10">
-              <h1 className="text-xl font-light drop-shadow-md">
-                Leave a Review
-              </h1>
-              <div className="flex flex-col drop-shadow-md rounded-lg items-center px-5 w-[40%] py-10 bg-white gap-10">
-                <input
-                  type="text"
-                  className="px-4 drop-shadow-md py-2 my-5 w-[80%] rounded-lg border-2 border-[#E0DDcf]"
-                  placeholder="Message"
-                  onChange={UpdateReviewMessage}
-                />
-                <RatingInput callback={UpdateRating} />
-                <button
-                  onClick={Submit}
-                  className="font-medium drop-shadow-md text-[#E84855] border-2 border-[#E84855] hover:text-white hover:bg-[#E84855] hover:scale-110 active:scale-105 active:bg-[#8a2931] active:border-[#8a2931] rounded-full px-4 py-[.35rem] duration-150"
-                >
-                  Submit
-                </button>
               </div>
             </div>
           ) : (
