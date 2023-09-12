@@ -1,9 +1,11 @@
 import React from 'react'
 import { BsThreeDots } from 'react-icons/bs';
+import { useNavigate } from 'react-router';
 
-const ChatUserIcon = ({image, fname, lname, index, maxLength}) => {
+const ChatUserIcon = ({userId, image, fname, lname, index, maxLength}) => {
+  const navigate= useNavigate()
   return (
-    <div
+    <div onClick={()=>{navigate(`/Chats/${userId}`)}}
       className={`w-full flex gap-4 py-2 px-4 items-center duration-150 justify-between border-b hover:bg-[#d3d1c2] border-b-[#c0bdad] group ${
         index === 0 && "rounded-t-xl"
       } ${index === maxLength - 1 && "border-b-0 rounded-b-xl"}`}

@@ -3,9 +3,12 @@ import { FaArrowRight, FaFacebookF, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import InputTemplate from "../Misc/InputTemplate";
 import axios from "axios";
+import { useAtom } from "jotai";
+import { Authenticated } from "../../StateManagement/State";
 
 const LoginContent = () => {
   const [click, setClick] = useState(false);
+  const [loggedIn, setLoggedIn] = useAtom(Authenticated)
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [errorList, setErrorList] = useState([]);
@@ -13,13 +16,13 @@ const LoginContent = () => {
   
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    axios.get('https://localhost:7105/api/Users/CurrentUser', {withCredentials: true}).then((res)=>{
-      if(res.data != null){
-        navigate('/pet-sitters&owners')
-      }
-    })
-  },[])
+  // useEffect(()=>{
+  //   axios.get('https://localhost:7105/api/Users/CurrentUser', {withCredentials: true}).then((res)=>{
+  //     if(res.data != null){
+  //       navigate('/pet-sitters&owners')
+  //     }
+  //   })
+  // },[loggedIn])
 
   const UpdatePassword = (e) => {
     e.preventDefault();
@@ -61,11 +64,14 @@ const LoginContent = () => {
   const Submit = () => {
     if (errorList.length > 0) {
       if (!errorList.includes("usernameInvalid") && !errorList.includes('passwordInvalid')) {
+        localStorage.setItem('Auth', true)
+        setLoggedIn('true')
         axios.post(
           "https://localhost:7105/api/Users/Login",
           { username: username, password: password },
           { withCredentials: true }
-        ).then(res => navigate('/pet-sitters&owners'));
+        ).then(res => {
+          navigate('/pet-sitters&owners', {replace: true})});
       }
     }
   }

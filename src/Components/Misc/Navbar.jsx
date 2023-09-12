@@ -12,7 +12,7 @@ import Rating from "./Rating";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useAtom(Authenticated);
+  const [loggedIn, setLoggedIn] = useAtom(Authenticated)
   const [isDesktop, setDesktop] = useState(
     window.screen.width >= 1024 ? true : false
   );
@@ -28,7 +28,8 @@ const Navbar = () => {
     axios
       .get("https://localhost:7105/api/Users/Logout", { withCredentials: true })
       .then((res) => {
-        localStorage.removeItem("Auth");
+        localStorage.setItem('Auth', false)
+        setLoggedIn('false')
         navigate("login");
       });
   };
@@ -42,6 +43,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    if(loggedIn === 'true')
     axios
       .get("https://localhost:7105/api/Users/CurrentUser", {
         withCredentials: true,
@@ -49,7 +51,7 @@ const Navbar = () => {
       .then((res) => {
         setUser(res.data);
       });
-  }, [localStorage.getItem("Auth")]);
+  }, [loggedIn]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -60,10 +62,6 @@ const Navbar = () => {
     };
     document.addEventListener("mouseup", handleClickOutside);
   }, [ref]);
-
-  useEffect(() => {
-    setLoggedIn(localStorage.getItem("Auth") ? true : false);
-  }, [localStorage.getItem("Auth")]);
 
   useEffect(() => {
     function HandleResize() {
@@ -344,31 +342,36 @@ const Navbar = () => {
                 </Link>
                 <div
                   onMouseUp={Logout}
-                  className={`p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1] ${
-                    !loggedIn ? "hidden" : "visible"
-                  }`}
+                  className={`p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1] `}
                 >
                   <FaSignOutAlt
                     size={25}
                     className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
                   />
                 </div>
-                <Link
-                  to={"/login"}
-                  className={`${!loggedIn ? "visible" : "hidden"}`}
-                >
+                
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white fixed p-4 drop-shadow-md h-[11rem] px-10 shadow-black/25 duration-150 top-[5.5rem] right-20 z-[1]">
+            <div className="absolute w-[2rem] h-[2rem] bg-white -top-3 right-[11.7rem] rotate-[52deg] skew-x-12 z-[1]"></div>
+            <div className="flex flex-col pb-2 gap-0 border-b-2 border-b-[#c4c0b1]">
+              <p className="pt-5 font-medium text-lg whitespace-pre">Login or Register</p>
+              <p className="font-medium text-lg whitespace-normal">by clicking the button below</p>
+            </div>
+            <div>
+              <div onMouseDown={()=>navigate('/login')} className="w-full border-t gap-5 py-3 justify-center border-t-[#c4c0b1] flex ">
+              
                   <div className="p-3 rounded-full drop-shadow-sm cursor-pointer group duration-150 active:scale-90 hover:bg-[#c4c0b1]">
                     <FaSignInAlt
                       size={25}
                       className="text-[#c4c0b1] group-hover:text-[#280000] duration-150"
                     />
                   </div>
-                </Link>
               </div>
             </div>
           </div>
-        ) : (
-          ""
         )
       ) : (
         <div className="bg-white fixed p-4 shadow-lg scale-0 flex flex-col -translate-y-[120%] shadow-black/25 duration-200 top-[4.2rem] right-52 z-[1]">

@@ -5,7 +5,7 @@ import SNOFilterInput from "./SNOFilterInput";
 import SNOSkeleton from "./SNOSkeleton";
 import { BsArrowBarRight, BsArrowBarLeft } from "react-icons/bs";
 import { useAtom } from "jotai";
-import { Filtering, RatingFilter } from "../../StateManagement/State";
+import { Authenticated, Filtering, RatingFilter } from "../../StateManagement/State";
 import RatingInput from "../Misc/RatingInput";
 import {
   FaSortAmountDown,
@@ -15,6 +15,7 @@ import {
 
 const SNOContent = () => {
   const [locations, setLocations] = useState([]);
+  const [loggedIn, setLoggedIn] = useAtom(Authenticated)
   const [isLocationsSmall, setLocationsSmall] = useState(true);
   const [filterState, setFilterState] = useState(true);
   const [filter, setFilter] = useAtom(Filtering);
@@ -65,12 +66,12 @@ const SNOContent = () => {
   }, []);
 
   useEffect(() => {
+    if(loggedIn ==='true')
     axios
       .get("https://localhost:7105/api/Users/CurrentUser", {
         withCredentials: true,
       })
       .then((res) => {
-        localStorage.setItem("Auth", true);
         setCurrentUser(res.data);
       })
       .then(

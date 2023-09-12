@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import PublicProfilePageContent from '../Components/UserRelatedPages/PublicProfilePageContent'
 import axios from 'axios'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 const PublicProfilePage = () => {
   const [user, setUser] = useState()
   const [status, setStatus] = useState()
+  const navigate = useNavigate()
+  if(!localStorage.getItem('Auth')){
+    navigate('/login')
+  }
   const ref = useParams()
 
   useEffect(() => {

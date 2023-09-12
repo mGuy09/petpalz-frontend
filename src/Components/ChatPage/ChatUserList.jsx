@@ -9,9 +9,10 @@ const ChatUserList = ({users}) => {
       <div className="overflow-y-scroll h-full">
         {users.map((x, i) => (
           <ChatUserIcon
-            image={x.image}
-            fname={x.fname}
-            lname={x.lname}
+            userId={x.id}
+            image={x.profilePicUrl}
+            fname={x.firstName}
+            lname={x.lastName}
             index={i}
             maxLength={users.length}
           />
