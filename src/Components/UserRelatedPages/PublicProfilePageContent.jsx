@@ -63,7 +63,7 @@ const PublicProfilePageContent = ({ user, status }) => {
           })
         }
         else {
-          navigate(`/Chats/${x.data[0].id.toString()}`)
+          navigate(`/Chats/${x.data[0].userId2.toString()}`)
         }
       })
     })
@@ -131,7 +131,7 @@ const PublicProfilePageContent = ({ user, status }) => {
               value={1}
               callback={UpdateTab}
             />
-            
+
           </div>
           {tab === "0" ? (
             <div className="flex flex-col gap-16 bg-[#F1F0EA] items-center justify-center py-10">
@@ -196,7 +196,7 @@ const PublicProfilePageContent = ({ user, status }) => {
               <div className="flex flex-col gap-10 pb-10">
                 {reviews.length > 0
                   ? reviews.map((x) => <ReviewCard review={x} deleteCallback={DeleteReview} />)
-                  : "No Reviews Yet"}
+                  : <p className="font-light text-xl drop-shadow-md">No Reviews Yet</p>}
               </div>
             </div>
           ) : (

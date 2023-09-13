@@ -42,8 +42,8 @@ const ReviewCard = ({ review, deleteCallback }) => {
   if (user)
     return (
       <div id={review.id} className="flex flex-col gap-6 shadow-md group w-[30rem] bg-white p-5">
-        <div className="flex justify-between items-center" onClick={()=>{currentUser.id === review.postUserId ? navigate('/user') : navigate(`/profile/${user.userName}`)}}>
-          <div className="flex gap-5 peer cursor-pointer items-center">
+        <div className="flex justify-between items-center">
+          <div onClick={()=>{currentUser.id === review.postUserId ? navigate('/user') : navigate(`/profile/${user.userName}`)}} className="flex gap-5 peer cursor-pointer items-center">
           <div className="w-[5rem] peer-hover:scale-110 duration-150 drop-shadow-md">
             <img src={user.profilePicUrl} alt="" />
           </div>

@@ -14,9 +14,11 @@ const InputTemplate = ({
   isPassword,
   isPhoneNumber,
   visible,
-  showPassword
+  showPassword,
+  isLogin
 }) => {
-  
+
+  if(isLogin) errorList = [];
 
   if (isPassword)
     return (
@@ -46,7 +48,7 @@ const InputTemplate = ({
             />
           )}
         </div>
-        {errorList.includes(invalid) ? (
+        {isLogin ? '' : errorList.includes(invalid) ? (
           <BsExclamationCircle className="text-red-500 drop-shadow" size={23} />
         ) : errorList.includes(valid) ? (
           <IoMdCheckmarkCircleOutline
@@ -56,6 +58,7 @@ const InputTemplate = ({
         ) : (
           <IoMdCheckmarkCircleOutline size={23} className="invisible" />
         )}
+        
       </div>
     );
 
@@ -74,16 +77,16 @@ const InputTemplate = ({
             : "border-white placeholder-white"
         }`}
       />
-      {errorList.includes(invalid) ? (
-        <BsExclamationCircle className="text-red-500 drop-shadow" size={23} />
-      ) : errorList.includes(valid) ? (
-        <IoMdCheckmarkCircleOutline
-          className="text-green-600 drop-shadow"
-          size={23}
-        />
-      ) : (
-        <IoMdCheckmarkCircleOutline size={23} className="invisible" />
-      )}
+      {isLogin ? '' : errorList.includes(invalid) ? (
+          <BsExclamationCircle className="text-red-500 drop-shadow" size={23} />
+        ) : errorList.includes(valid) ? (
+          <IoMdCheckmarkCircleOutline
+            className="text-green-600 drop-shadow"
+            size={23}
+          />
+        ) : (
+          <IoMdCheckmarkCircleOutline size={23} className="invisible" />
+        )}
     </div>
   );
 };

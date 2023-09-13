@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-webkit-scrollbar{
+    background: transparent;
+    width: .55rem;
+    transition-duration: 500ms;
+    transition-property: background-color;
+}
+::-webkit-scrollbar-thumb{
+    background: #bdbaae;
+    border-radius:20px;
+    transition-duration: 500ms;
+    transition-property: background-color;
+}
+::-webkit-scrollbar-thumb:hover{
+    background: #88867a;
+    transition-duration: 500ms;
+    transition-property: background-color;
+}
+
+::-webkit-scrollbar-track:hover{
+    /* background: #c0bdad; */
+    transition-duration: 500ms;
+    transition-property: background-color;
+}
+::-webkit-scrollbar-track{
+    background: inherit;
+    transition-duration: 500ms;
+    transition-property: background-color;
+
+}
+

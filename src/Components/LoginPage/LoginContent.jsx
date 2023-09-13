@@ -5,6 +5,8 @@ import InputTemplate from "../Misc/InputTemplate";
 import axios from "axios";
 import { useAtom } from "jotai";
 import { Authenticated } from "../../StateManagement/State";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { BsEmojiSmileUpsideDown } from "react-icons/bs";
 
 const LoginContent = () => {
   const [click, setClick] = useState(false);
@@ -13,80 +15,54 @@ const LoginContent = () => {
   const [username, setUsername] = useState("");
   const [errorList, setErrorList] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(false)
   
   const navigate = useNavigate()
 
-  // useEffect(()=>{
-  //   axios.get('https://localhost:7105/api/Users/CurrentUser', {withCredentials: true}).then((res)=>{
-  //     if(res.data != null){
-  //       navigate('/pet-sitters&owners')
-  //     }
-  //   })
-  // },[loggedIn])
+  useEffect(()=>{
+    axios.get('https://localhost:7105/api/Users/CurrentUser', {withCredentials: true}).then((res)=>{
+        navigate('/pet-sitters&owners')
+    })
+  },[loggedIn])
 
   const UpdatePassword = (e) => {
     e.preventDefault();
     setPassword(e.target.value);
-    if (e.target.value.length < 6) {
-      if (!errorList.includes("passwordInvalid"))
-        setErrorList((prev) => [
-          ...prev.filter((x) => x != "passwordValid"),
-          "passwordInvalid",
-        ]);
-    } else {
-      if (!errorList.includes("passwordValid")) {
-        setErrorList((prev) => [
-          ...prev.filter((x) => x != "passwordInvalid"),
-          "passwordValid",
-        ]);
-      }
+    if (e.target.value.length > 1) {
+      setError(false)
     }
   };
   const UpdateUsername = (e) => {
     e.preventDefault();
     setUsername(e.target.value);
-    if (e.target.value.length < 5) {
-      if (!errorList.includes("usernameInvalid")) {
-        setErrorList((prev) => [
-          ...prev.filter((x) => x != "usernameValid"),
-          "usernameInvalid",
-        ]);
-      }
-    } else {
-      if (!errorList.includes("usernameValid")) {
-        setErrorList((prev) => [
-          ...prev.filter((x) => x != "usernameInvalid"),
-          "usernameValid",
-        ]);
-      }
+    if (e.target.value.length > 0) {
+      setError(false)
     }
   };
   const Submit = () => {
-    if (errorList.length > 0) {
-      if (!errorList.includes("usernameInvalid") && !errorList.includes('passwordInvalid')) {
+      axios.post(
+        "https://localhost:7105/api/Users/Login",
+        { username: username, password: password },
+        { withCredentials: true }
+      ).then(res => {
+        console.log(res)
         localStorage.setItem('Auth', true)
         setLoggedIn('true')
-        axios.post(
-          "https://localhost:7105/api/Users/Login",
-          { username: username, password: password },
-          { withCredentials: true }
-        ).then(res => {
-          navigate('/pet-sitters&owners', {replace: true})});
-      }
-    }
+        navigate('/pet-sitters&owners', {replace: true})}
+      ).catch(onrejected => {
+        console.log(onrejected)
+        if(onrejected.response.status === 400){
+          setError(true)
+        }  
+      })
   }
-
-  useEffect(() => {
-  }, [errorList]);
-
-  
 
   return (
     <div className="relative h-[100vh]">
       <div className="absolute  bg-gradient-to-br w-full h-full from-[#DE7C5A] via-[#f56363] to-[#742d33]"></div>
       <div
         onClick={() => setClick(true)}
-        className={`top-[13%] left-[32%] flex absolute flex-col group items-center w-[45rem] h-[40rem] rounded-2xl  justify-center duration-200 gap-14  ${
+        className={`top-[13%] left-[32%] flex absolute flex-col group items-center w-[45rem] h-[40rem] rounded-2xl  justify-center duration-200 gap-11  ${
           click
             ? "bg-[#fdfdf4] shadow-xl shadow-black/30 scale-110"
             : "bg-black/30"
@@ -127,6 +103,8 @@ const LoginContent = () => {
           </button>
         </div>
         <div className="flex flex-col items-center gap-4">
+        <p className={`flex items-center gap-2 select-none text-transparent ${error ? 'text-red-500/100' : ''}`}><AiOutlineExclamationCircle/> Incorrect Username or Password</p>
+
           <InputTemplate
             Method={UpdateUsername}
             click={click}
@@ -135,6 +113,7 @@ const LoginContent = () => {
             type={"text"}
             invalid={"usernameInvalid"}
             valid={"usernameValid"}
+            isLogin={true}
           />
           <InputTemplate
             Method={UpdatePassword}
@@ -147,6 +126,7 @@ const LoginContent = () => {
             valid={"passwordValid"}
             showPassword={() => setVisible(!visible)}
             visible={visible}
+            isLogin={true}
           />
           <Link
             to={""}

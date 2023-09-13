@@ -12,6 +12,7 @@ import {
   FaSortAmountDownAlt,
   FaSortAmountUp,
 } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const SNOContent = () => {
   const [locations, setLocations] = useState([]);
@@ -27,6 +28,7 @@ const SNOContent = () => {
   const [reverseUsers, setReverseUsers] = useState([]);
   const [services, setServices] = useState([]);
   const [reverseOrder, setOrder] = useState(false);
+  const navigate = useNavigate()
 
   const [filterInputs, setFilterInputs] = useState([]);
 
@@ -73,7 +75,7 @@ const SNOContent = () => {
       })
       .then((res) => {
         setCurrentUser(res.data);
-      })
+      }).catch(res => {if(res.response.status === 400) navigate('/login')})
       .then(
         axios
           .get("https://localhost:7105/api/Qualifications", {
