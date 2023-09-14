@@ -6,6 +6,7 @@
     background: transparent;
     width: .55rem;
     transition-duration: 500ms;
+    border-radius: 90px;
     transition-property: background-color;
 }
 ::-webkit-scrollbar-thumb{
@@ -27,6 +28,8 @@
 }
 ::-webkit-scrollbar-track{
     background: inherit;
+    border-radius: 90px;
+
     transition-duration: 500ms;
     transition-property: background-color;
 

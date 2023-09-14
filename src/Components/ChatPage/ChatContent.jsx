@@ -3,55 +3,58 @@ import ChatUserList from "./ChatUserList";
 import ChatUser from "./ChatUser";
 import axios from "axios";
 import ChatMessagesContainer from "./ChatMessagesContainer";
-import { useParams } from "react-router";
-import { useAtom } from "jotai";
-import { Authenticated } from "../../StateManagement/State";
+import { useNavigate, useParams } from "react-router";
+
 
 
 const ChatContent = () => {
-  const [loggedIn, setLoggedIn] = useAtom(Authenticated)
   const [currentUser, setCurrentUser] = useState();
+  const [userIds, setUserIds] = useState([])
   const [users, setUsers] = useState([])
   const [chats, setChats] = useState([])
   const [selectedUser, setSelectedUser] = useState()
   const params = useParams();
+  const navigate = useNavigate()
   useEffect(() => {
-    if (loggedIn === 'true')
-      axios.get('https://localhost:7105/api/Users/CurrentUser', { withCredentials: true }).then(res => {
-        setCurrentUser(res.data)
-        console.log(res.data)
-      })
+    axios.get('https://localhost:7105/api/Users/CurrentUser', { withCredentials: true }).catch(e => { if (e.response.status === 400) navigate('/login') }).then(res => {
+      setCurrentUser(res.data)
+    })
   }, [])
 
   useEffect(() => {
-    if (currentUser)
-      axios.get('https://localhost:7105/api/Chats', { withCredentials: true }).then(res => {
-        setChats(res.data)
-
-      })
+    axios.get('https://localhost:7105/api/Chats', { withCredentials: true }).then(res => {
+      setChats(res.data)
+    })
   }, [currentUser])
 
   useEffect(() => {
-    if (users.length < 1)
-    console.log(users)
-      chats.forEach((element, i) => {
-        axios.get(`https://localhost:7105/api/Users/GetById/${element.userId2}`, { withCredentials: true }).then(response => {
-          if(i === 0){
-            setUsers([response.data])
-          }else{
-            setUsers(prev => [...prev, response.data].sort((a, b) => a.firstName < b.firstName))
-          }
+    let idList = []
+    if (chats.length !== 0 && userIds.length === 0) {
+      if (currentUser)
+        chats.forEach(element => {
+          idList.push(element.userId1 === currentUser.id ? element.userId2 : element.userId1)
         })
-      });
+      setUserIds(idList)
+    }
   }, [chats])
 
   useEffect(() => {
-    console.log(params.chatId)
+    if (userIds.length !== 0 && users.length === 0) {
+      userIds.forEach(element => {
+        axios.get(`https://localhost:7105/api/Users/GetById/${element}`, { withCredentials: true }).then(res => {
+          setUsers(prev => [...prev, res.data])
+        })
+      })
+    }
+  }, [userIds])
+
+  useEffect(() => {
     if (params.chatId !== 'home') {
       axios.get('https://localhost:7105/api/Users/GetById/' + params.chatId, { withCredentials: true }).then(res => {
-        console.log(res.data)
         setSelectedUser(res.data)
       })
+    } else {
+      setSelectedUser()
     }
 
   }, [params.chatId])
@@ -59,7 +62,7 @@ const ChatContent = () => {
   return (
     <div className="bg-[#c0bdad]  flex items-center justify-center h-[100vh] w-full">
       <div className="bg-white w-[90rem] h-[45rem] rounded-xl shadow-lg shadow-[#868475]/80 grid grid-cols-4">
-        <ChatUserList users={users} />
+        <ChatUserList users={users} chatId={params.chatId} />
         <ChatMessagesContainer />
         <ChatUser user={selectedUser} />
       </div>
