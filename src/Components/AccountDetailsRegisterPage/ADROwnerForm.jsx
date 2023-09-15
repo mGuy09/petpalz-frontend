@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import SelectOptionTemplate from "./SelectOptionTemplate";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useAtom } from "jotai";
+import { Authenticated } from "../../StateManagement/State";
 
 const ADROwnerForm = ({ userType }) => {
   const [descriptionL, setDescriptionL] = useState(150);
+  const [loggedIn, setLoggedIn] = useAtom(Authenticated)
   const [descriptionText, setDescription] = useState(null);
   const [serviceType, setServiceType] = useState();
   const [gender, setGender] = useState("");
@@ -55,7 +58,11 @@ const ADROwnerForm = ({ userType }) => {
           },
           { withCredentials: true }
         )
-        .then((res) => navigate("/pet-sitters&owners"));
+        .then((res) => {
+          localStorage.setItem('Auth', true)
+          setLoggedIn('true')
+          navigate("/pet-sitters&owners")
+        });
     }
   };
   return (

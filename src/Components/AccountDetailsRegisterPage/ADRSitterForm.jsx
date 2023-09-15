@@ -5,9 +5,12 @@ import ADRInputs from "./ADRInputs";
 import ADRQualificationTag from "./ADRQualificationTag";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useAtom } from "jotai";
+import { Authenticated } from "../../StateManagement/State";
 
 const ADRSitterForm = ({ userType }) => {
   const [descriptionL, setDescriptionL] = useState(150);
+  const [loggedIn, setLoggedIn] = useAtom(Authenticated)
   const [descriptionText, setDescription] = useState("");
   const [serviceType, setServiceType] = useState();
   const [qualificationIds, setQualificationIds] = useState([]);
@@ -151,6 +154,8 @@ const ADRSitterForm = ({ userType }) => {
           { withCredentials: true }
         )
         .then((res) => {
+          localStorage.setItem('Auth', true)
+          setLoggedIn('true')
           navigate("/pet-sitters&owners")
         });
     }

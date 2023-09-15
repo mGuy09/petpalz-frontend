@@ -43,11 +43,10 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if(loggedIn === 'true')
     axios
       .get("https://localhost:7105/api/Users/CurrentUser", {
         withCredentials: true,
-      })
+      }).catch((res)=>{if(res.response.status === 400){setLoggedIn('false')}})
       .then((res) => {
         setUser(res.data);
       });

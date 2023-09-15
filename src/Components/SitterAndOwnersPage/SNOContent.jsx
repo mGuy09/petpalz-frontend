@@ -16,7 +16,6 @@ import { useNavigate } from "react-router";
 
 const SNOContent = () => {
   const [locations, setLocations] = useState([]);
-  const [loggedIn, setLoggedIn] = useAtom(Authenticated)
   const [isLocationsSmall, setLocationsSmall] = useState(true);
   const [filterState, setFilterState] = useState(true);
   const [filter, setFilter] = useAtom(Filtering);
@@ -68,14 +67,17 @@ const SNOContent = () => {
   }, []);
 
   useEffect(() => {
-    if(loggedIn ==='true')
     axios
       .get("https://localhost:7105/api/Users/CurrentUser", {
         withCredentials: true,
       })
+
       .then((res) => {
         setCurrentUser(res.data);
-      }).catch(res => {if(res.response.status === 400) navigate('/login')})
+      })
+      .catch((res) => {
+        if (res.response.status === 400) navigate("/login");
+      })
       .then(
         axios
           .get("https://localhost:7105/api/Qualifications", {
@@ -110,7 +112,6 @@ const SNOContent = () => {
             withCredentials: true,
           })
           .then((res) => {
-            // console.log(res.data);
             setUsers(res.data);
           });
       } else {
@@ -119,7 +120,6 @@ const SNOContent = () => {
             withCredentials: true,
           })
           .then((res) => {
-            // console.log(res.data);
             setUsers(res.data);
           });
       }
